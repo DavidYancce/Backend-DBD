@@ -1,7 +1,7 @@
 package com.proyecto_dbd.final_dbd.controlador;
 
+import com.proyecto_dbd.final_dbd.dto.Actividad;
 import com.proyecto_dbd.final_dbd.dto.Cliente;
-import com.proyecto_dbd.final_dbd.dto.Empleado;
 import com.proyecto_dbd.final_dbd.servicio.FinalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +32,13 @@ public class FinalControlador {
     )
     public @ResponseBody Cliente obtenerNoticiasTendencia(@RequestBody Cliente cliente){
         return service.insertarCliente(cliente);
+    }
+    @RequestMapping(
+            value = "/insertar-actividad",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody Actividad insertarActividad(@RequestBody Actividad actividad){
+        return service.insertarActividad(actividad);
     }
 }

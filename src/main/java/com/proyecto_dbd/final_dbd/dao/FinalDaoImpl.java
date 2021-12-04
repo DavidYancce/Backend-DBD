@@ -1,14 +1,21 @@
 package com.proyecto_dbd.final_dbd.dao;
 
+import com.proyecto_dbd.final_dbd.dto.Actividad;
 import com.proyecto_dbd.final_dbd.dto.Cliente;
 import com.proyecto_dbd.final_dbd.dto.Empleado;
+import com.proyecto_dbd.final_dbd.dto.EmpleadoXProyecto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Repository
 public class FinalDaoImpl implements FinalDao {
@@ -60,6 +67,75 @@ public class FinalDaoImpl implements FinalDao {
             throwables.printStackTrace();
         }
         return cliente;
+    }
+
+    public Actividad insertarActividad(Actividad actividad){
+        //Dependiendo de si es una actividad planificada o no se ejecuta una sentencia u otra
+
+        LocalDate fechaActual = LocalDate.now(ZoneId.of("GMT-05:00"));
+        String SQL_Planificado=" INSERT INTO Actividad( " +
+                " descripcion, idproyecto, dni_ejecutor, dni_planificador, fechaplanificada, tiempoplanificado, planificado) " +
+                " VALUES (?, ?, ?, ?, ?, ?,?)";
+
+        String SQL_NoPlanificado = "INSERT INTO actividad( " +
+                " fechaingresada, tiemporequerido, descripcion, idproyecto, dni_ejecutor, planificado) " +
+                " VALUES (?, ?, ?, ?, ?, ?) ";
+
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            if(actividad.getPlanificado()==1){
+                PreparedStatement ps = con.prepareStatement(SQL_Planificado);
+                ps.setString(1,actividad.getDescripcion());
+                ps.setInt(2,actividad.getIdProyecto());
+                ps.setString(3,actividad.getDniEjecutor());
+                ps.setString(4,actividad.getDniPlanificador());
+                ps.setDate(5,Date.valueOf(fechaActual));
+                ps.setDouble(6,actividad.getTiempoPlanificado());
+                ps.setInt(7,actividad.getPlanificado());
+                ps.executeUpdate();
+                ps.close();
+            }
+            else if (actividad.getPlanificado()==0){
+                PreparedStatement ps = con.prepareStatement(SQL_NoPlanificado);
+                ps.setDate(1,Date.valueOf(fechaActual));
+                ps.setDouble(2, actividad.getTiempoRequerido());
+                ps.setString(3,actividad.getDescripcion());
+                ps.setInt(4,actividad.getIdProyecto());
+                ps.setString(5,actividad.getDniEjecutor());
+                ps.setInt(6,actividad.getPlanificado());
+                ps.executeUpdate();
+                ps.close();
+            }
+            con.commit();
+            con.close();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return actividad;
+    }
+
+    //Por testear
+    public EmpleadoXProyecto insertarEmpleadoXProyecto (EmpleadoXProyecto empleadoXProyecto){
+        String SQL=" INSERT INTO public.empleadoxproyecto( " +
+                " dni, idproyecto, rol, descripcion) " +
+                " VALUES (?, ?, ?, ?) ";
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement ps = con.prepareStatement(SQL);
+            ps.setString(1, empleadoXProyecto.getDNI());
+            ps.setInt(2, empleadoXProyecto.getIdProyecto());
+            ps.setString(3, empleadoXProyecto.getRol());
+            ps.setString(4, empleadoXProyecto.getDescripcion());
+
+            ps.executeUpdate();
+            ps.close();
+            con.commit();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return empleadoXProyecto;
     }
 
 }

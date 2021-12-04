@@ -1,5 +1,8 @@
 package com.proyecto_dbd.final_dbd.dto;
 
+import lombok.Data;
+
+@Data
 public class Empleado {
     private String DNI;
     private String nombre1;
