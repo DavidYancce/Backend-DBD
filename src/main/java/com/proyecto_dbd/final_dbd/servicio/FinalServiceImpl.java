@@ -1,6 +1,7 @@
 package com.proyecto_dbd.final_dbd.servicio;
 
 import com.proyecto_dbd.final_dbd.dao.FinalDao;
+import com.proyecto_dbd.final_dbd.dao.dao_hz.FinalDao_hz;
 import com.proyecto_dbd.final_dbd.daoDZ.FinalDaoDZ;
 import com.proyecto_dbd.final_dbd.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class FinalServiceImpl implements FinalService{
     private FinalDao dao;
     @Autowired
     private FinalDaoDZ daoDZ;
+    @Autowired
+    private FinalDao_hz dao_hz;
 
     public List<Cliente> obtenerClientes() {
         return dao.obtenerClientes();
@@ -45,5 +48,9 @@ public class FinalServiceImpl implements FinalService{
 
     public List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(String FechaA, String FechaB) {
         return daoDZ.obtenerHorasRegistradasProyecto(FechaA, FechaB);
+    }
+
+    public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(String nombreProyecto) {
+        return dao_hz.obtenerEmpleadoXProyecto(nombreProyecto);
     }
 }

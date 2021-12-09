@@ -13,4 +13,5 @@ public interface FinalService {
     List<Actividad> obtenerActividades();
     List<Empleado> obtenerJefesProyecto();
     List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(String FechaA, String FechaB);
+    List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(String nombreProyecto);
 }
