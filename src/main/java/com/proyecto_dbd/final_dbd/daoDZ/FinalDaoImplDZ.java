@@ -181,37 +181,42 @@ public class FinalDaoImplDZ implements FinalDaoDZ {
                 "WHERE " +
                 "1= CASE " +
                 "    WHEN ?='' THEN 1 " +
-                "    WHEN E.DNI LIKE '%?%' THEN 1 " +
+                "    WHEN E.DNI LIKE ? THEN 1 " +
                 "    ELSE 0 " +
                 "    END " +
                 "AND 1 = CASE " +
                 "    WHEN ?='' THEN 1 " +
-                "    WHEN E.NombreCompleto LIKE '%?%' THEN 1 " +
+                "    WHEN E.NombreCompleto LIKE ? THEN 1 " +
                 "    ELSE 0 " +
                 "    END " +
                 "AND 1 = CASE " +
                 "    WHEN ?='' THEN 1 " +
-                "    WHEN E.ApellidoPaterno LIKE '%?%' THEN 1 " +
+                "    WHEN E.ApellidoPaterno LIKE ? THEN 1 " +
                 "    ELSE 0 " +
                 "    END " +
                 "AND 1 = CASE " +
                 "    WHEN ?='' THEN 1 " +
-                "    WHEN E.ApellidoMaterno LIKE '%?%' THEN 1 " +
+                "    WHEN E.ApellidoMaterno LIKE ? THEN 1 " +
                 "    ELSE 0 " +
                 "    END " +
                 "AND 1 = CASE " +
                 "    WHEN ?='' THEN 1 " +
-                "    WHEN EP.Rol LIKE '%?%' THEN 1 " +
+                "    WHEN EP.Rol LIKE ? THEN 1 " +
                 "    ELSE 0 " +
                 "    END ";
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
             ps.setString(1, filtro.getDNI());
-            ps.setString(2, filtro.getNombreCompleto());
-            ps.setString(3, filtro.getApellidoPaterno());
-            ps.setString(4, filtro.getApellidoMaterno());
-            ps.setString(5, filtro.getRol());
+            ps.setString(2, filtro.getDNI()+"%");
+            ps.setString(3, filtro.getNombreCompleto());
+            ps.setString(4, "%"+filtro.getNombreCompleto()+"%");
+            ps.setString(5, filtro.getApellidoPaterno());
+            ps.setString(6, "%"+filtro.getApellidoPaterno()+"%");
+            ps.setString(7, filtro.getApellidoMaterno());
+            ps.setString(8, "%"+filtro.getApellidoMaterno()+"%");
+            ps.setString(9, filtro.getRol());
+            ps.setString(10, "%"+filtro.getRol()+"%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 RegTablaEmp registro = new RegTablaEmp();

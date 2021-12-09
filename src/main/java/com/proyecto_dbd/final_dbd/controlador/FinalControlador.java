@@ -120,5 +120,14 @@ public class FinalControlador {
     public @ResponseBody List<RegTablaEmp> busquedaEmpleados(@RequestBody FiltrosBE filtro) {
         return service.busquedaEmpleados(filtro);
     }
+
+    @RequestMapping(
+            value = "/test",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody FiltrosBE test(@RequestBody FiltrosBE filtro) {
+        return filtro;
+    }
 }
 
