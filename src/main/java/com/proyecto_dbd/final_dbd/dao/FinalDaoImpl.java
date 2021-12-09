@@ -1,21 +1,15 @@
 package com.proyecto_dbd.final_dbd.dao;
 
-import com.proyecto_dbd.final_dbd.dto.Actividad;
-import com.proyecto_dbd.final_dbd.dto.Cliente;
-import com.proyecto_dbd.final_dbd.dto.Empleado;
-import com.proyecto_dbd.final_dbd.dto.EmpleadoXProyecto;
+import com.proyecto_dbd.final_dbd.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Repository
 public class FinalDaoImpl implements FinalDao {
@@ -136,6 +130,77 @@ public class FinalDaoImpl implements FinalDao {
             throwables.printStackTrace();
         }
         return empleadoXProyecto;
+    }
+    //testeado
+    public List<LineaNegocio> obtenerLineasNegocio(){
+        List<LineaNegocio> lineasNegocio = new ArrayList<>();
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            String sentenciaSQL = " SELECT * FROM LineaNegocio ";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sentenciaSQL);
+            while(rs.next()) {
+                LineaNegocio lineaNegocio = new LineaNegocio();
+                lineaNegocio.setIdLinea(rs.getInt("idlinea"));
+                lineaNegocio.setNombreLinea(rs.getString("nombrelinea"));
+                lineasNegocio.add(lineaNegocio);
+            }
+            rs.close();
+            st.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return lineasNegocio;
+    }
+    //Testeado
+    public List<DashboardHoraXLinea> horaPorLinea(){
+        List<DashboardHoraXLinea> resultados = new ArrayList<>();
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            String sentenciaSQL = " SELECT LN.nombrelinea, SUM(A.tiemporequerido) " +
+                    " FROM actividad A, lineanegocio LN, proyecto P  " +
+                    " WHERE A.idproyecto=P.idproyecto  " +
+                    " AND P.idlinea=LN.idlinea  " +
+                    " GROUP BY LN.nombrelinea; ";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sentenciaSQL);
+            while(rs.next()) {
+                DashboardHoraXLinea resultado = new DashboardHoraXLinea();
+                resultado.setSumaHoras(rs.getDouble("sum"));
+                resultado.setNombreLinea(rs.getString("nombreLinea"));
+                resultados.add(resultado);
+            }
+            rs.close();
+            st.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return resultados;
+    }
+    //Testeado
+    public DashboardHoraXLinea horaPorLineaEspecifica(LineaNegocio lineaNegocio){
+        String SQL=" SELECT LN.nombrelinea, SUM(A.tiemporequerido) " +
+                " FROM actividad A, lineanegocio LN, proyecto P " +
+                " WHERE A.idproyecto=P.idproyecto " +
+                " AND P.idlinea=LN.idlinea " +
+                " AND LN.idlinea= "  + lineaNegocio.getIdLinea() +
+                " GROUP BY LN.nombrelinea ";
+        DashboardHoraXLinea resultado =  new DashboardHoraXLinea();;
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SQL);
+            while (rs.next()) {
+                resultado.setNombreLinea(rs.getString("nombrelinea"));
+                resultado.setSumaHoras(rs.getDouble("sum"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return resultado;
     }
 
 }

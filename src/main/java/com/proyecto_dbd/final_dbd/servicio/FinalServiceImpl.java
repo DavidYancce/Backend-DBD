@@ -1,16 +1,17 @@
 package com.proyecto_dbd.final_dbd.servicio;
 
 import com.proyecto_dbd.final_dbd.dao.FinalDao;
-import com.proyecto_dbd.final_dbd.dto.Actividad;
-import com.proyecto_dbd.final_dbd.dto.Cliente;
+import com.proyecto_dbd.final_dbd.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
 @Service
 @Transactional
+
 public class FinalServiceImpl implements FinalService{
 
     @Autowired
@@ -27,4 +28,22 @@ public class FinalServiceImpl implements FinalService{
     public Actividad insertarActividad(Actividad actividad) {
         return dao.insertarActividad(actividad);
     }
+
+    public EmpleadoXProyecto insertarEmpleadoXProyecto(EmpleadoXProyecto empleadoXProyecto) {
+        return dao.insertarEmpleadoXProyecto(empleadoXProyecto);
+    }
+
+    public List<LineaNegocio> obtenerLineasNegocio() {
+        return dao.obtenerLineasNegocio();
+    }
+
+    public List<DashboardHoraXLinea> horaPorLinea() {
+        return dao.horaPorLinea();
+    }
+
+    public DashboardHoraXLinea horaPorLineaEspecifica(LineaNegocio lineaNegocio) {
+        return dao.horaPorLineaEspecifica(lineaNegocio);
+    }
+
+
 }

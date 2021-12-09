@@ -2,6 +2,8 @@ package com.proyecto_dbd.final_dbd.controlador;
 
 import com.proyecto_dbd.final_dbd.dto.Actividad;
 import com.proyecto_dbd.final_dbd.dto.Cliente;
+import com.proyecto_dbd.final_dbd.dto.DashboardHoraXLinea;
+import com.proyecto_dbd.final_dbd.dto.LineaNegocio;
 import com.proyecto_dbd.final_dbd.servicio.FinalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +42,32 @@ public class FinalControlador {
     )
     public @ResponseBody Actividad insertarActividad(@RequestBody Actividad actividad){
         return service.insertarActividad(actividad);
+    }
+
+    @RequestMapping(
+            value = "/obtener-lineas-negocio",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<LineaNegocio> obtenerLineasNegocio(){
+        return service.obtenerLineasNegocio();
+    }
+
+    @RequestMapping(
+            value = "/obtener-horas-linea",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<DashboardHoraXLinea> obtenerHoraLinea(){
+        return service.horaPorLinea();
+    }
+
+    @RequestMapping(
+            value = "/obtener-horas-linea-especifica",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody DashboardHoraXLinea horaPorLineaEspecifica(@RequestBody LineaNegocio lineaNegocio){
+        return service.horaPorLineaEspecifica(lineaNegocio);
     }
 }
