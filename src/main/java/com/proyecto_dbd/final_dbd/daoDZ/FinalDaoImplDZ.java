@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -97,25 +98,30 @@ public class FinalDaoImplDZ implements FinalDaoDZ {
         return jefesproyecto;
     }
 
-    public List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(String FechaA, String FechaB) {
+    public List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fechas) {
+        LocalDate fechaActual = LocalDate.now(ZoneId.of("GMT-05:00"));
         List<HorasRegistradasProyecto> registros = new ArrayList<HorasRegistradasProyecto>();
+        String sentenciaSQL = " SELECT pr.nombreProyecto, SUM(ac.tiempoRequerido) " +
+                " FROM actividad as ac " +
+                " LEFT JOIN proyecto as pr " +
+                " ON pr.idproyecto=ac.idproyecto " +
+                " WHERE pr.estado !='FN' " +
+                " AND ac.fechaIngresada BETWEEN ? AND ? " +
+                " GROUP BY (pr.nombreProyecto) ";
+        System.out.println("hola");
+        System.out.println(Date.valueOf(fechaActual));
+        System.out.println(Fechas.getFechaInicio());
+        System.out.println(Fechas.getFechaFin());
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
-            String sentenciaSQL = " SELECT pr.nombreProyecto, SUM(ac.tiempoRequerido) AS \"Suma de horas\" " +
-                    " FROM actividad as ac " +
-                    " LEFT JOIN proyecto as pr " +
-                    " ON pr.idproyecto=ac.idproyecto " +
-                    " WHERE pr.estado !='FN' " +
-                    " AND ac.fechaIngresada BETWEEN ? AND ? " +
-                    " GROUP BY (pr.nombreProyecto ";
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
-            ps.setString(1, FechaA);
-            ps.setString(2, FechaB);
+            ps.setDate(1, Date.valueOf(Fechas.getFechaInicio()));
+            ps.setDate(2, Date.valueOf(Fechas.getFechaFin()));
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 HorasRegistradasProyecto registro = new HorasRegistradasProyecto();
-                registro.setNombreProyecto(rs.getString("pr.nombreProyecto"));
-                registro.setSumaHoras(rs.getDouble("Suma de horas"));
+                registro.setNombreProyecto(rs.getString("nombreproyecto"));
+                registro.setSumaHoras(rs.getDouble("SUM"));
                 registros.add(registro);
             }
             rs.close();

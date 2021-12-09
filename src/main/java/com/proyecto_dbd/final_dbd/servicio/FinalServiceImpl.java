@@ -13,6 +13,7 @@ import java.util.List;
 
 @Service
 @Transactional
+
 public class FinalServiceImpl implements FinalService{
 
     @Autowired
@@ -34,6 +35,22 @@ public class FinalServiceImpl implements FinalService{
         return dao.insertarActividad(actividad);
     }
 
+    public EmpleadoXProyecto insertarEmpleadoXProyecto(EmpleadoXProyecto empleadoXProyecto) {
+        return dao.insertarEmpleadoXProyecto(empleadoXProyecto);
+    }
+
+    public List<LineaNegocio> obtenerLineasNegocio() {
+        return dao.obtenerLineasNegocio();
+    }
+
+    public List<DashboardHoraXLinea> horaPorLinea() {
+        return dao.horaPorLinea();
+    }
+
+    public DashboardHoraXLinea horaPorLineaEspecifica(LineaNegocio lineaNegocio) {
+        return dao.horaPorLineaEspecifica(lineaNegocio);
+    }
+
     public List<Proyecto> obtenerProyectos() {
         return daoDZ.obtenerProyectos();
     }
@@ -46,11 +63,14 @@ public class FinalServiceImpl implements FinalService{
         return daoDZ.obtenerJefesProyecto();
     }
 
-    public List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(String FechaA, String FechaB) {
-        return daoDZ.obtenerHorasRegistradasProyecto(FechaA, FechaB);
+    public List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fechas) {
+        return daoDZ.obtenerHorasRegistradasProyecto(Fechas);
     }
 
+<<<<<<< HEAD
     public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(String nombreProyecto) {
         return dao_hz.obtenerEmpleadoXProyecto(nombreProyecto);
     }
+=======
+>>>>>>> origin/main
 }
