@@ -74,7 +74,33 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public  @ResponseBody List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(@RequestBody String FechaA, @RequestBody String FechaB){
-        return service.obtenerHorasRegistradasProyecto(FechaA, FechaB);
+    public  @ResponseBody List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(@RequestBody RangoFechas Fecha){
+        return service.obtenerHorasRegistradasProyecto(Fecha);
+    }
+
+    @RequestMapping(
+            value = "/horas-empleado-proyecto",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(@RequestBody String nombreProyecto) {
+        return service.obtenerEmpleadoXProyecto(nombreProyecto);
+    }
+
+    @RequestMapping(
+            value = "/obtener-planificado-vs-registrado",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public  @ResponseBody List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado() { return service.obtenerPlanificadoVsRegistrado(); }
+
+    @RequestMapping(
+            value = "/proyecto-registrado-planificado",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody     List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(@RequestBody String nombreProyecto) {
+        return service.obtenerProyectoPlanificadoVsRegistrado(nombreProyecto);
     }
 }
+

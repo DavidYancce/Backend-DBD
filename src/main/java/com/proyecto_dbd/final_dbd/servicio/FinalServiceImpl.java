@@ -1,7 +1,6 @@
 package com.proyecto_dbd.final_dbd.servicio;
 
 import com.proyecto_dbd.final_dbd.dao.FinalDao;
-import com.proyecto_dbd.final_dbd.dao.dao_hz.FinalDao_hz;
 import com.proyecto_dbd.final_dbd.daoDZ.FinalDaoDZ;
 import com.proyecto_dbd.final_dbd.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +12,12 @@ import java.util.List;
 
 @Service
 @Transactional
-
 public class FinalServiceImpl implements FinalService{
 
     @Autowired
     private FinalDao dao;
     @Autowired
     private FinalDaoDZ daoDZ;
-    @Autowired
-    private FinalDao_hz dao_hz;
 
     public List<Cliente> obtenerClientes() {
         return dao.obtenerClientes();
@@ -33,22 +29,6 @@ public class FinalServiceImpl implements FinalService{
 
     public Actividad insertarActividad(Actividad actividad) {
         return dao.insertarActividad(actividad);
-    }
-
-    public EmpleadoXProyecto insertarEmpleadoXProyecto(EmpleadoXProyecto empleadoXProyecto) {
-        return dao.insertarEmpleadoXProyecto(empleadoXProyecto);
-    }
-
-    public List<LineaNegocio> obtenerLineasNegocio() {
-        return dao.obtenerLineasNegocio();
-    }
-
-    public List<DashboardHoraXLinea> horaPorLinea() {
-        return dao.horaPorLinea();
-    }
-
-    public DashboardHoraXLinea horaPorLineaEspecifica(LineaNegocio lineaNegocio) {
-        return dao.horaPorLineaEspecifica(lineaNegocio);
     }
 
     public List<Proyecto> obtenerProyectos() {
@@ -66,11 +46,14 @@ public class FinalServiceImpl implements FinalService{
     public List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fechas) {
         return daoDZ.obtenerHorasRegistradasProyecto(Fechas);
     }
-
-<<<<<<< HEAD
     public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(String nombreProyecto) {
-        return dao_hz.obtenerEmpleadoXProyecto(nombreProyecto);
+        return dao.obtenerEmpleadoXProyecto(nombreProyecto);
     }
-=======
->>>>>>> origin/main
+    public List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado() {
+        return dao.obtenerPlanificadoVsRegistrado();
+    }
+
+    public List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(String nombreProyecto) {
+        return dao.obtenerProyectoPlanificadoVsRegistrado(nombreProyecto);
+    }
 }

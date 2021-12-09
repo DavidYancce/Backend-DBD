@@ -16,4 +16,7 @@ public interface FinalDao {
     List<LineaNegocio> obtenerLineasNegocio();
     List<DashboardHoraXLinea> horaPorLinea();
     DashboardHoraXLinea horaPorLineaEspecifica(LineaNegocio lineaNegocio);
+    List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(String nombreProyecto);
+    List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado();
+    List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(String nombreProyecto);
 }
