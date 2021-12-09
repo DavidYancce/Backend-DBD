@@ -1,9 +1,6 @@
 package com.proyecto_dbd.final_dbd.dao;
 
-import com.proyecto_dbd.final_dbd.dto.Actividad;
-import com.proyecto_dbd.final_dbd.dto.Cliente;
-import com.proyecto_dbd.final_dbd.dto.Empleado;
-import com.proyecto_dbd.final_dbd.dto.EmpleadoXProyecto;
+import com.proyecto_dbd.final_dbd.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
