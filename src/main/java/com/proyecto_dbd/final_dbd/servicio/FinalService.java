@@ -16,4 +16,6 @@ public interface FinalService {
     List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(String nombreProyecto);
     List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado();
     List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(String nombreProyecto);
+    List<Empleado> obtenerColaboradores(Proyecto proyecto);
+    List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro);
 }

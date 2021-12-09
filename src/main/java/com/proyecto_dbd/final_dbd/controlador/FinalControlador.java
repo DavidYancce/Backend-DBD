@@ -99,8 +99,26 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public @ResponseBody     List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(@RequestBody String nombreProyecto) {
+    public @ResponseBody List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(@RequestBody String nombreProyecto) {
         return service.obtenerProyectoPlanificadoVsRegistrado(nombreProyecto);
+    }
+
+    @RequestMapping(
+            value = "/obtener-colaboradores",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<Empleado> obtenerColabores(@RequestBody Proyecto proyecto) {
+        return service.obtenerColaboradores(proyecto);
+    }
+
+    @RequestMapping(
+            value = "/busqueda-empleados",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<RegTablaEmp> busquedaEmpleados(@RequestBody FiltrosBE filtro) {
+        return service.busquedaEmpleados(filtro);
     }
 }
 

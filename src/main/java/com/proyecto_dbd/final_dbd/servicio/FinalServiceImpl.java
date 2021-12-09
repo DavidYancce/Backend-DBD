@@ -56,4 +56,12 @@ public class FinalServiceImpl implements FinalService{
     public List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(String nombreProyecto) {
         return dao.obtenerProyectoPlanificadoVsRegistrado(nombreProyecto);
     }
+
+    public List<Empleado> obtenerColaboradores(Proyecto proyecto){
+        return daoDZ.obtenerColaboradores(proyecto);
+    }
+
+    public List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro) {
+        return daoDZ.busquedaEmpleados(filtro);
+    }
 }
