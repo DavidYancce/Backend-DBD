@@ -105,7 +105,8 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public  @ResponseBody List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(@RequestBody String FechaA, @RequestBody String FechaB){
-        return service.obtenerHorasRegistradasProyecto(FechaA, FechaB);
+    public  @ResponseBody List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(@RequestBody RangoFechas Fechas){
+        return service.obtenerHorasRegistradasProyecto(Fechas);
     }
+
 }

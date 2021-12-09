@@ -60,8 +60,8 @@ public class FinalServiceImpl implements FinalService{
         return daoDZ.obtenerJefesProyecto();
     }
 
-    public List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(String FechaA, String FechaB) {
-        return daoDZ.obtenerHorasRegistradasProyecto(FechaA, FechaB);
+    public List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fechas) {
+        return daoDZ.obtenerHorasRegistradasProyecto(Fechas);
     }
 
 }
