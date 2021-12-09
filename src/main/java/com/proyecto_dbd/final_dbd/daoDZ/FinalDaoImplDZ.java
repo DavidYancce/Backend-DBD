@@ -181,7 +181,7 @@ public class FinalDaoImplDZ implements FinalDaoDZ {
                 "WHERE " +
                 "1= CASE " +
                 "    WHEN ?='' THEN 1 " +
-                "    WHEN E.DNI=? THEN 1 " +
+                "    WHEN E.DNI LIKE '%?%' THEN 1 " +
                 "    ELSE 0 " +
                 "    END " +
                 "AND 1 = CASE " +
@@ -208,11 +208,10 @@ public class FinalDaoImplDZ implements FinalDaoDZ {
             Connection con = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
             ps.setString(1, filtro.getDNI());
-            ps.setString(2, filtro.getDNI());
-            ps.setString(3, filtro.getNombreCompleto());
-            ps.setString(4, filtro.getApellidoPaterno());
-            ps.setString(5, filtro.getApellidoMaterno());
-            ps.setString(6, filtro.getRol());
+            ps.setString(2, filtro.getNombreCompleto());
+            ps.setString(3, filtro.getApellidoPaterno());
+            ps.setString(4, filtro.getApellidoMaterno());
+            ps.setString(5, filtro.getRol());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 RegTablaEmp registro = new RegTablaEmp();
