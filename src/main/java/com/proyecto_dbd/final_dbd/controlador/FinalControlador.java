@@ -17,6 +17,27 @@ public class FinalControlador {
     private FinalService service;
 
     @RequestMapping(
+            value = "/login",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody Empleado login(@RequestBody Empleado empleado) {return service.login(empleado);}
+
+    @RequestMapping(
+            value = "/obtener-cargos",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<Cargo> obtenerCargo() {return service.obtenerCargo();}
+
+    @RequestMapping(
+            value = "/obtener-empleados",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<Empleado> obtenerEmpleado() {return service.obtenerEmpleado();}
+
+    @RequestMapping(
             value = "/obtener-clientes",
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST

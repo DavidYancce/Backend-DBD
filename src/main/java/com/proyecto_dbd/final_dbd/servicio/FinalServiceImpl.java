@@ -2,6 +2,7 @@ package com.proyecto_dbd.final_dbd.servicio;
 
 import com.proyecto_dbd.final_dbd.dao.FinalDao;
 import com.proyecto_dbd.final_dbd.daoDZ.FinalDaoDZ;
+import com.proyecto_dbd.final_dbd.daoMC.FinalDaoMC;
 import com.proyecto_dbd.final_dbd.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,14 @@ public class FinalServiceImpl implements FinalService{
     private FinalDao dao;
     @Autowired
     private FinalDaoDZ daoDZ;
+    @Autowired
+    private FinalDaoMC daoMC;
+
+    public List<Cargo> obtenerCargo() {return daoMC.obtenerCargo();}
+
+    public List<Empleado> obtenerEmpleado() {return daoMC.obtenerEmpleado();}
+
+    public Empleado login(Empleado empleado) {return daoMC.login(empleado);}
 
     public List<Cliente> obtenerClientes() {
         return dao.obtenerClientes();

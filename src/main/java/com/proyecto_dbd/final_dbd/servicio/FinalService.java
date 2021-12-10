@@ -7,6 +7,9 @@ import java.util.List;
 
 public interface FinalService {
     List<Cliente> obtenerClientes();
+    List<Cargo> obtenerCargo();
+    List<Empleado> obtenerEmpleado();
+    Empleado login(Empleado empleado);
     Cliente insertarCliente(Cliente cliente);
     Actividad insertarActividad (Actividad actividad);
     List<Proyecto> obtenerProyectos();
