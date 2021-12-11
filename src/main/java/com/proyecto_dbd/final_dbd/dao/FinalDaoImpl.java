@@ -208,15 +208,19 @@ public class FinalDaoImpl implements FinalDao {
         List<HorasEmpleadoXProyecto> horaep = new ArrayList<HorasEmpleadoXProyecto>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
-            String sentenciaSQL = " SELECT E.nombrecompleto AS Empleado,  P.nombreproyecto AS Proyecto, SUM(A.tiemporequerido) FROM actividad A, empleado E, proyecto P WHERE E.dni=A.dni_ejecutor AND A.idproyecto=P.idproyecto AND P.idproyecto = ? GROUP BY E.nombrecompleto, P.nombreproyecto; ";
+            String sentenciaSQL = " SELECT E.nombrecompleto AS Empleado, "+
+                    " P.nombreproyecto AS Proyecto, SUM(A.tiemporequerido) "+
+                    " FROM actividad A, empleado E, proyecto P "+
+                    " WHERE E.dni=A.dni_ejecutor AND A.idproyecto=P.idproyecto AND P.nombreproyecto=? " +
+                    " GROUP BY e.nombrecompleto, p.nombreproyecto ";
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
             ps.setString(1, nombreProyecto);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 HorasEmpleadoXProyecto actividad = new HorasEmpleadoXProyecto();
-                actividad.setEmpleado(rs.getString("Empleado"));
+                actividad.setEmpleado(rs.getString("empleado"));
                 actividad.setTiempoRequerido(rs.getInt("sum"));
-                actividad.setProyecto(rs.getString("Proyecto"));
+                actividad.setProyecto(rs.getString("proyecto"));
 
                 horaep.add(actividad);
             }
@@ -233,7 +237,11 @@ public class FinalDaoImpl implements FinalDao {
         List<PlanificadoVsRegistrado> versus = new ArrayList<PlanificadoVsRegistrado>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
-            String sentenciaSQL = " SELECT p.idproyecto, a.fechaingresada, a.fechaplanificada, SUBSTR(AGE(fechaplanificada,fechaingresada), 1, 8) AS diferencia, SUM(A.tiemporequerido) AS tiempo, SUM(A.tiempoplanificado) AS tiempoplanificado FROM Empleado e, Actividad a, Proyecto p WHERE a.planificado = 1 AND e.dni=a.dni_ejecutor AND p.idproyecto=a.idproyecto group by p.idproyecto ;";
+            String sentenciaSQL = " SELECT p.idproyecto, a.fechaingresada, a.fechaplanificada, "+
+                    " AGE(fechaingresada, fechaplanificada) AS diferencia, SUM(A.tiemporequerido) AS tiempo, "+
+                    " SUM(A.tiempoplanificado) AS tiempoplanificado FROM Empleado e, Actividad a, Proyecto p "+
+                    " WHERE a.planificado = 1 AND e.dni=a.dni_ejecutor AND p.idproyecto=a.idproyecto "+
+                    " group by p.idproyecto,a.fechaingresada, a.fechaplanificada ";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sentenciaSQL);
             while (rs.next()) {
@@ -260,7 +268,12 @@ public class FinalDaoImpl implements FinalDao {
         List<PlanificadoVsRegistrado> proyecto = new ArrayList<PlanificadoVsRegistrado>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
-            String sentenciaSQL = "SELECT p.idproyecto, a.fechaingresada, a.fechaplanificada, SUBSTR(AGE(fechaplanificada,fechaingresada), 1, 8) AS diferencia, SUM(A.tiemporequerido) AS tiempo, SUM(A.tiempoplanificado) AS tiempoplanificado FROM Empleado e, Actividad a, Proyecto p WHERE a.planificado = 1 AND e.dni=a.dni_ejecutor AND p.idproyecto=a.idproyecto AND p.nombreproyecto=? group by p.idproyecto ;";
+            String sentenciaSQL = " SELECT p.idproyecto, a.fechaingresada, a.fechaplanificada, "+
+                    " AGE(fechaingresada,fechaplanificada) AS diferencia, "+
+                    " SUM(A.tiemporequerido) AS tiempo, SUM(A.tiempoplanificado) AS tiempoplanificado "+
+                    " FROM Empleado e, Actividad a, Proyecto p WHERE a.planificado = 1 AND "+
+                    " e.dni=a.dni_ejecutor AND p.idproyecto=a.idproyecto AND p.nombreproyecto=? "+
+                    " group by p.idproyecto, a.fechaingresada, a.fechaplanificada ";
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
             ps.setString(1, nombreProyecto);
             ResultSet rs = ps.executeQuery();
