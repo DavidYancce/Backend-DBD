@@ -104,7 +104,7 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public @ResponseBody List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(@RequestBody String proyecto) {
+    public @ResponseBody List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(@RequestBody Proyecto proyecto) {
         return service.obtenerEmpleadoXProyecto(proyecto);
     }
 
@@ -120,8 +120,8 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public @ResponseBody List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(@RequestBody String nombreProyecto) {
-        return service.obtenerProyectoPlanificadoVsRegistrado(nombreProyecto);
+    public @ResponseBody List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(@RequestBody Proyecto proyecto) {
+        return service.obtenerProyectoPlanificadoVsRegistrado(proyecto);
     }
 
     @RequestMapping(

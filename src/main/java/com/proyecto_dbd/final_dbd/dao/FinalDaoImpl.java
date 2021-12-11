@@ -204,17 +204,17 @@ public class FinalDaoImpl implements FinalDao {
         return resultado;
     }
 
-    public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(String nombreProyecto) {
+    public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto) {
         List<HorasEmpleadoXProyecto> horaep = new ArrayList<HorasEmpleadoXProyecto>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
             String sentenciaSQL = " SELECT E.nombrecompleto AS Empleado, "+
                     " P.nombreproyecto AS Proyecto, SUM(A.tiemporequerido) "+
                     " FROM actividad A, empleado E, proyecto P "+
-                    " WHERE E.dni=A.dni_ejecutor AND A.idproyecto=P.idproyecto AND P.nombreproyecto=? " +
+                    " WHERE E.dni=A.dni_ejecutor AND A.idproyecto=P.idproyecto AND P.idproyecto=? " +
                     " GROUP BY e.nombrecompleto, p.nombreproyecto ";
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
-            ps.setString(1, nombreProyecto);
+            ps.setInt(1, proyecto.getIdProyecto());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 HorasEmpleadoXProyecto actividad = new HorasEmpleadoXProyecto();
@@ -264,7 +264,7 @@ public class FinalDaoImpl implements FinalDao {
         return versus;
     }
 
-    public List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(String nombreProyecto) {
+    public List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(Proyecto proyect) {
         List<PlanificadoVsRegistrado> proyecto = new ArrayList<PlanificadoVsRegistrado>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
@@ -272,10 +272,10 @@ public class FinalDaoImpl implements FinalDao {
                     " AGE(fechaingresada,fechaplanificada) AS diferencia, "+
                     " SUM(A.tiemporequerido) AS tiempo, SUM(A.tiempoplanificado) AS tiempoplanificado "+
                     " FROM Empleado e, Actividad a, Proyecto p WHERE a.planificado = 1 AND "+
-                    " e.dni=a.dni_ejecutor AND p.idproyecto=a.idproyecto AND p.nombreproyecto=? "+
+                    " e.dni=a.dni_ejecutor AND p.idproyecto=a.idproyecto AND p.idproyecto=? "+
                     " group by p.idproyecto, a.fechaingresada, a.fechaplanificada ";
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
-            ps.setString(1, nombreProyecto);
+            ps.setInt(1, proyect.getIdProyecto());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 PlanificadoVsRegistrado actividad = new PlanificadoVsRegistrado();
