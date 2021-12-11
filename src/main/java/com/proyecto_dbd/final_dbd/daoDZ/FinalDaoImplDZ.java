@@ -221,7 +221,11 @@ public class FinalDaoImplDZ implements FinalDaoDZ {
             while (rs.next()) {
                 RegTablaEmp registro = new RegTablaEmp();
                 registro.setDNI(rs.getString("dni"));
-                registro.setNombre(rs.getString("nombre1")+" "+rs.getString("nombre2"));
+                if(rs.getString("nombre2")==null){
+                    registro.setNombre(rs.getString("nombre1"));
+                } else{
+                    registro.setNombre(rs.getString("nombre1")+" "+rs.getString("nombre2"));
+                }
                 registro.setCorreoEmpresarial(rs.getString("correoempresarial"));
                 registro.setTelefono(rs.getString("telefono"));
                 registro.setApellidos(rs.getString("apellidoPaterno")+" "+rs.getString("apellidoMaterno"));
