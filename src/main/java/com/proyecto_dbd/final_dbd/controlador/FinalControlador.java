@@ -180,6 +180,14 @@ public class FinalControlador {
     }
 
     @RequestMapping(
+            value = "/insertar-proyecto",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody String insertarProyecto(@RequestBody Datos datos) {
+        return service.insertarProyecto(datos);
+    }
+    @RequestMapping(
             value = "/insertar-contacto-cliente",
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST

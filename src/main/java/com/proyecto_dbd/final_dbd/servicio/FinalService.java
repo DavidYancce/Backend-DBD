@@ -25,4 +25,5 @@ public interface FinalService {
     EmpleadoXProyecto insertarEmpleadoXProyecto(EmpleadoXProyecto empleadoXProyecto);
     ContactoCliente insertarContactoCliente (ContactoCliente contactocliente);
     List<Proyecto> obtenerProyectoFull();
+    String insertarProyecto(Datos datos);
 }
