@@ -110,14 +110,13 @@ public class FinalDaoImplMC implements FinalDaoMC {
             ps.setString(4, empleado.getApellidoPaterno());
             ps.setString(5, empleado.getApellidoMaterno());
             ps.setString(6, empleado.getNombreCompleto());
-            ps.setString(7, empleado.getCorreoEmpresarial());
-            ps.setString(8, empleado.getContrasenia());
+            ps.setString(7, empleado.getNombre1().toLowerCase()+"."+empleado.getApellidoPaterno().toLowerCase()+"@gestionysistemas.com");
+            ps.setString(8, empleado.getDNI());
             ps.setString(9, empleado.getTelefono());
             ps.setString(10, empleado.getGenero());
-            ps.setString(11,"Contratado")
-            ps.setString(11, empleado.getEstado());
+            ps.setString(11,"Contratado");
             ps.setString(12, empleado.getDireccion());
-            ps.setString(13, empleado.getFechaNacimiento());
+            ps.setDate(13, Date.valueOf(empleado.getFechaNacimiento()));
             ps.setInt(14, empleado.getIdCargo());
             ps.setDouble(15, empleado.getSueldo());
 
