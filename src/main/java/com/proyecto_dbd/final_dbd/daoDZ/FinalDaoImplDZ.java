@@ -247,7 +247,7 @@ public class FinalDaoImplDZ implements FinalDaoDZ {
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement ps = con.prepareStatement(SQL1);
-            ps.setString(1, datos.getEstado());
+            ps.setString(1, "NI");
             ps.setString(2, datos.getNombreProyecto());
             ps.setInt(3, datos.getIdProyecto());
             ps.setDate(4, Date.valueOf(datos.getFechaInicio()));
@@ -258,7 +258,7 @@ public class FinalDaoImplDZ implements FinalDaoDZ {
             pst.setString(1, datos.getDni());
             pst.setInt(2, datos.getIdProyecto());
             pst.setString(3, "Jefe de proyecto");
-            pst.setString(4,datos.getDescripcion());
+            pst.setString(4,"Lider "+datos.getNombreProyecto());
             ps.executeUpdate();
             pst.executeUpdate();
             ps.close();

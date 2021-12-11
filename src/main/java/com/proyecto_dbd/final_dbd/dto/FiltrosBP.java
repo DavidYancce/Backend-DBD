@@ -7,4 +7,5 @@ public class FiltrosBP {
     private String lineaNegocio;
     private String razonSocial;
     private String estadoProyecto;
+    private Integer idProyecto;
 }

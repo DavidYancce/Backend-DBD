@@ -147,34 +147,43 @@ public class FinalDaoImplMC implements FinalDaoMC {
         if(filtro.getNombreProyecto()==null){
             filtro.setNombreProyecto("");
         }
-        String sentenciaSQL ="SELECT P.*,E.nombrecompleto,C.razonsocial " +
-                "FROM Proyecto AS P,Empleado AS E " +
-                "JOIN Cliente as C " +
+        if(filtro.getIdProyecto()==null){
+            filtro.setIdProyecto(0);
+        }
+        String sentenciaSQL ="SELECT P.idProyecto, P.NombreProyecto, E.NombreCompleto, C.RazonSocial, LN.NombreLinea, P.Estado, LN.NombreLinea " +
+                "FROM Proyecto AS P " +
+                "JOIN Cliente AS C " +
                 "ON P.Ruc = C.Ruc " +
-                "WHERE E.idCargo=3 and " +
+                "JOIN LineaNegocio AS LN " +
+                "ON P.idlinea=LN.idlinea " +
+                "JOIN EmpleadoXProyecto AS EP " +
+                "ON EP.Rol='Jefe de proyecto' AND P.idproyecto=EP.idproyecto " +
+                "JOIN Empleado AS E " +
+                "ON E.DNI=EP.DNI " +
+                "WHERE " +
                 "1= CASE " +
                 "    WHEN ?='' THEN 1 " +
-                "    WHEN P.NombreProyecto LIKE ? THEN 1 " +
+                "    WHEN upper(P.NombreProyecto) LIKE ? THEN 1 " +
                 "    ELSE 0 " +
                 "    END " +
                 "AND 1 = CASE " +
-                "  WHEN ?='' THEN 1 " +
+                "    WHEN ?='' THEN 1 " +
+                "    WHEN upper(LN.NombreLinea) LIKE ? THEN 1 " +
+                "    ELSE 0 " +
+                "    END " +
+                "AND 1 = CASE " +
+                "    WHEN ?='' THEN 1 " +
                 "    WHEN E.NombreCompleto LIKE ? THEN 1 " +
                 "    ELSE 0 " +
-                "    END "  +
+                "    END " +
                 "AND 1 = CASE " +
                 "    WHEN ?='' THEN 1 " +
-                "    WHEN P.LineaNegocio LIKE ? THEN 1 " +
-                "    ELSE 0 " +
-                "    END " +
-                "AND 1 = CASE  " +
-                "    WHEN ?='' THEN 1 " +
-                "    WHEN C.RazonSocial LIKE ? THEN 1 " +
+                "    WHEN upper(P.Estado) LIKE ? THEN 1 " +
                 "    ELSE 0 " +
                 "    END " +
                 "AND 1 = CASE " +
-                "    WHEN ? ='' THEN 1 " +
-                "    AND P.Estado LIKE ? THEN 1 " +
+                "    WHEN ?='' THEN 1 " +
+                "    WHEN upper(C.RazonSocial) LIKE ? THEN 1 " +
                 "    ELSE 0 " +
                 "    END";
 
@@ -183,17 +192,18 @@ public class FinalDaoImplMC implements FinalDaoMC {
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
             ps.setString(1, filtro.getNombreProyecto().toUpperCase());
             ps.setString(2, "%"+filtro.getNombreProyecto().toUpperCase()+"%");
-            ps.setString(3, filtro.getNombreJefe());
-            ps.setString(4, filtro.getNombreJefe()+"%");
-            ps.setString(5, filtro.getLineaNegocio().toUpperCase());
-            ps.setString(6, "%"+filtro.getLineaNegocio().toUpperCase()+"%");
-            ps.setString(7, filtro.getRazonSocial().toUpperCase());
-            ps.setString(8, "%"+filtro.getRazonSocial().toUpperCase()+"%");
-            ps.setString(9, filtro.getEstadoProyecto().toUpperCase());
-            ps.setString(10, "%"+filtro.getEstadoProyecto().toUpperCase()+"%");
+            ps.setString(3, filtro.getLineaNegocio());
+            ps.setString(4, "%"+filtro.getLineaNegocio()+"%");
+            ps.setString(5, filtro.getNombreJefe().toUpperCase());
+            ps.setString(6, "%"+filtro.getNombreJefe().toUpperCase()+"%");
+            ps.setString(7, filtro.getEstadoProyecto().toUpperCase());
+            ps.setString(8, "%"+filtro.getEstadoProyecto().toUpperCase()+"%");
+            ps.setString(9, filtro.getRazonSocial().toUpperCase());
+            ps.setString(10, "%"+filtro.getRazonSocial().toUpperCase()+"%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 FiltrosBP registro = new FiltrosBP();
+                registro.setIdProyecto(rs.getInt("idproyecto"));
                 registro.setNombreProyecto(rs.getString("nombreproyecto"));
                 registro.setNombreJefe(rs.getString("nombrecompleto"));
                 registro.setRazonSocial(rs.getString("razonsocial"));

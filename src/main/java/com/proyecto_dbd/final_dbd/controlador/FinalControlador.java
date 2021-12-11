@@ -166,7 +166,7 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public @ResponseBody EmpleadoXProyecto test(@RequestBody EmpleadoXProyecto filtro) {
+    public @ResponseBody FiltrosBP test(@RequestBody FiltrosBP filtro) {
         return filtro;
     }
 
