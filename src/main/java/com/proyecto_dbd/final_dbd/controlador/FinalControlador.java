@@ -129,7 +129,7 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public @ResponseBody List<Empleado> obtenerColabores(@RequestBody Proyecto proyecto) {
+    public @ResponseBody List<Empleado> obtenerColaboradores(@RequestBody Proyecto proyecto) {
         return service.obtenerColaboradores(proyecto);
     }
 

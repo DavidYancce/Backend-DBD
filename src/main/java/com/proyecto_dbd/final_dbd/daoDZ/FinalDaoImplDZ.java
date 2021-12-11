@@ -23,7 +23,7 @@ public class FinalDaoImplDZ implements FinalDaoDZ {
         List<Proyecto> proyectos = new ArrayList<Proyecto>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
-            String sentenciaSQL = " SELECT * FROM Proyecto ";
+            String sentenciaSQL = " SELECT * FROM Proyecto ORDER BY nombreProyecto";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sentenciaSQL);
             while (rs.next()) {
