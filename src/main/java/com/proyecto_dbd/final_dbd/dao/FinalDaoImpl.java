@@ -204,18 +204,20 @@ public class FinalDaoImpl implements FinalDao {
         return resultado;
     }
 
-    public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(String nombreProyecto) {
+    public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto) {
         List<HorasEmpleadoXProyecto> horaep = new ArrayList<HorasEmpleadoXProyecto>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
-            String sentenciaSQL = " SELECT E.nombrecompleto AS Empleado,  P.nombreproyecto AS Proyecto, SUM(A.tiemporequerido) FROM actividad A, empleado E, proyecto P WHERE E.dni=A.dni_ejecutor AND A.idproyecto=P.idproyecto AND P.idproyecto = ? GROUP BY E.nombrecompleto, P.nombreproyecto; ";
+            String sentenciaSQL = " SELECT E.nombrecompleto AS Empleado,  P.nombreproyecto AS Proyecto, SUM(A.tiemporequerido) " +
+                                  "FROM actividad A, empleado E, proyecto P WHERE E.dni=A.dni_ejecutor AND A.idproyecto=P.idproyecto " +
+                                  "AND P.idproyecto = ? GROUP BY E.nombrecompleto, P.nombreproyecto ";
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
-            ps.setString(1, nombreProyecto);
+            ps.setInt(1, proyecto.getIdProyecto());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 HorasEmpleadoXProyecto actividad = new HorasEmpleadoXProyecto();
                 actividad.setEmpleado(rs.getString("Empleado"));
-                actividad.setTiempoRequerido(rs.getInt("sum"));
+                actividad.setTiempoRequerido(rs.getDouble("sum"));
                 actividad.setProyecto(rs.getString("Proyecto"));
 
                 horaep.add(actividad);

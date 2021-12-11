@@ -55,8 +55,8 @@ public class FinalServiceImpl implements FinalService{
     public List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fechas) {
         return daoDZ.obtenerHorasRegistradasProyecto(Fechas);
     }
-    public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(String nombreProyecto) {
-        return dao.obtenerEmpleadoXProyecto(nombreProyecto);
+    public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto) {
+        return dao.obtenerEmpleadoXProyecto(proyecto);
     }
     public List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado() {
         return dao.obtenerPlanificadoVsRegistrado();

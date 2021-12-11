@@ -9,4 +9,5 @@ public class RegTablaEmp {
     private String telefono;
     private String correoEmpresarial;
     private String nombreProyecto;
+    private String nombreCargo;
 }
