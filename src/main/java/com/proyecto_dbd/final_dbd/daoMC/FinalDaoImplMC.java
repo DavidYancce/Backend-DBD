@@ -45,7 +45,7 @@ public class FinalDaoImplMC implements FinalDaoMC {
         List<Empleado> empleados = new ArrayList<Empleado>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
-            String sentenciaSQL = "SELECT DNI, NombreCompleto FROM Empleado ORDER BY NombreCompleto";
+            String sentenciaSQL = "SELECT DNI, NombreCompleto FROM Empleado WHERE idCargo=1 ORDER BY NombreCompleto";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sentenciaSQL);
             while (rs.next()) {
