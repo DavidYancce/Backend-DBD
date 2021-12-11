@@ -110,7 +110,7 @@ public class FinalDaoImpl implements FinalDao {
         return actividad;
     }
 
-    //Por testear
+    //Testeado
     public EmpleadoXProyecto insertarEmpleadoXProyecto (EmpleadoXProyecto empleadoXProyecto){
         String SQL=" INSERT INTO public.empleadoxproyecto( " +
                 " dni, idproyecto, rol, descripcion) " +
@@ -284,5 +284,30 @@ public class FinalDaoImpl implements FinalDao {
             throwables.printStackTrace();
         }
         return proyecto;
+    }
+    public List<Proyecto> obtenerProyectoFull(){
+        List<Proyecto> proyectos = new ArrayList<>();
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            String SentenciaSQL= " SELECT estado, nombreproyecto, idproyecto, fechainicio, fechafin, ruc, idlinea " +
+                    " FROM proyecto ";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SentenciaSQL);
+            while (rs.next()) {
+                Proyecto proyecto= new Proyecto();
+                proyecto.setIdProyecto(rs.getInt("idproyecto"));
+                proyecto.setRUC(rs.getString("ruc"));
+                proyecto.setNombreProyecto(rs.getString("nombreproyecto"));
+                proyecto.setIdLinea(rs.getInt("idlinea"));
+                proyecto.setEstado(rs.getString("estado"));
+                proyecto.setFechaFin(rs.getString("fechafin"));
+                proyecto.setFechaInicio(rs.getString("fechainicio"));
+                proyectos.add(proyecto);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return proyectos;
     }
 }

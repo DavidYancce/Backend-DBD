@@ -147,8 +147,26 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public @ResponseBody FiltrosBE test(@RequestBody FiltrosBE filtro) {
+    public @ResponseBody EmpleadoXProyecto test(@RequestBody EmpleadoXProyecto filtro) {
         return filtro;
+    }
+
+    @RequestMapping(
+            value = "/insertar-empleados-proyecto",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody  EmpleadoXProyecto insertarEmpleadoXProyecto (@RequestBody  EmpleadoXProyecto empleadoXProyecto) {
+        return service.insertarEmpleadoXProyecto(empleadoXProyecto);
+    }
+
+    @RequestMapping(
+            value = "/obtener-proyectos-full",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<Proyecto> obtenerProyectoFull() {
+        return service.obtenerProyectoFull();
     }
 }
 
