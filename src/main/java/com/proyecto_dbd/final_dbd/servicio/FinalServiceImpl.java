@@ -2,6 +2,7 @@ package com.proyecto_dbd.final_dbd.servicio;
 
 import com.proyecto_dbd.final_dbd.dao.FinalDao;
 import com.proyecto_dbd.final_dbd.daoDZ.FinalDaoDZ;
+import com.proyecto_dbd.final_dbd.daoMC.FinalDaoMC;
 import com.proyecto_dbd.final_dbd.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,14 @@ public class FinalServiceImpl implements FinalService{
     private FinalDao dao;
     @Autowired
     private FinalDaoDZ daoDZ;
+    @Autowired
+    private FinalDaoMC daoMC;
+
+    public List<Cargo> obtenerCargo() {return daoMC.obtenerCargo();}
+
+    public List<Empleado> obtenerEmpleado() {return daoMC.obtenerEmpleado();}
+
+    public Empleado login(Empleado empleado) {return daoMC.login(empleado);}
 
     public List<Cliente> obtenerClientes() {
         return dao.obtenerClientes();
@@ -46,8 +55,8 @@ public class FinalServiceImpl implements FinalService{
     public List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fechas) {
         return daoDZ.obtenerHorasRegistradasProyecto(Fechas);
     }
-    public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(String nombreProyecto) {
-        return dao.obtenerEmpleadoXProyecto(nombreProyecto);
+    public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto) {
+        return dao.obtenerEmpleadoXProyecto(proyecto);
     }
     public List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado() {
         return dao.obtenerPlanificadoVsRegistrado();
@@ -63,5 +72,11 @@ public class FinalServiceImpl implements FinalService{
 
     public List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro) {
         return daoDZ.busquedaEmpleados(filtro);
+    }
+    public EmpleadoXProyecto insertarEmpleadoXProyecto (EmpleadoXProyecto empleadoXProyecto){
+        return dao.insertarEmpleadoXProyecto(empleadoXProyecto);
+    };
+    public List<Proyecto> obtenerProyectoFull(){
+        return dao.obtenerProyectoFull();
     }
 }

@@ -110,7 +110,7 @@ public class FinalDaoImpl implements FinalDao {
         return actividad;
     }
 
-    //Por testear
+    //Testeado
     public EmpleadoXProyecto insertarEmpleadoXProyecto (EmpleadoXProyecto empleadoXProyecto){
         String SQL=" INSERT INTO public.empleadoxproyecto( " +
                 " dni, idproyecto, rol, descripcion) " +
@@ -204,23 +204,35 @@ public class FinalDaoImpl implements FinalDao {
         return resultado;
     }
 
-    public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(String nombreProyecto) {
+    public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto) {
         List<HorasEmpleadoXProyecto> horaep = new ArrayList<HorasEmpleadoXProyecto>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
+<<<<<<< HEAD
             String sentenciaSQL = " SELECT E.nombrecompleto AS Empleado, "+
                     " P.nombreproyecto AS Proyecto, SUM(A.tiemporequerido) "+
                     " FROM actividad A, empleado E, proyecto P "+
                     " WHERE E.dni=A.dni_ejecutor AND A.idproyecto=P.idproyecto AND P.nombreproyecto=? " +
                     " GROUP BY e.nombrecompleto, p.nombreproyecto ";
+=======
+            String sentenciaSQL = " SELECT E.nombrecompleto AS Empleado,  P.nombreproyecto AS Proyecto, SUM(A.tiemporequerido) " +
+                                  "FROM actividad A, empleado E, proyecto P WHERE E.dni=A.dni_ejecutor AND A.idproyecto=P.idproyecto " +
+                                  "AND P.idproyecto = ? GROUP BY E.nombrecompleto, P.nombreproyecto ";
+>>>>>>> 9156323a5029d474435cac1e3c1e859cd5e605cf
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
-            ps.setString(1, nombreProyecto);
+            ps.setInt(1, proyecto.getIdProyecto());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 HorasEmpleadoXProyecto actividad = new HorasEmpleadoXProyecto();
+<<<<<<< HEAD
                 actividad.setEmpleado(rs.getString("empleado"));
                 actividad.setTiempoRequerido(rs.getInt("sum"));
                 actividad.setProyecto(rs.getString("proyecto"));
+=======
+                actividad.setEmpleado(rs.getString("Empleado"));
+                actividad.setTiempoRequerido(rs.getDouble("sum"));
+                actividad.setProyecto(rs.getString("Proyecto"));
+>>>>>>> 9156323a5029d474435cac1e3c1e859cd5e605cf
 
                 horaep.add(actividad);
             }
@@ -295,5 +307,30 @@ public class FinalDaoImpl implements FinalDao {
             throwables.printStackTrace();
         }
         return proyecto;
+    }
+    public List<Proyecto> obtenerProyectoFull(){
+        List<Proyecto> proyectos = new ArrayList<>();
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            String SentenciaSQL= " SELECT estado, nombreproyecto, idproyecto, fechainicio, fechafin, ruc, idlinea " +
+                    " FROM proyecto ";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(SentenciaSQL);
+            while (rs.next()) {
+                Proyecto proyecto= new Proyecto();
+                proyecto.setIdProyecto(rs.getInt("idproyecto"));
+                proyecto.setRUC(rs.getString("ruc"));
+                proyecto.setNombreProyecto(rs.getString("nombreproyecto"));
+                proyecto.setIdLinea(rs.getInt("idlinea"));
+                proyecto.setEstado(rs.getString("estado"));
+                proyecto.setFechaFin(rs.getString("fechafin"));
+                proyecto.setFechaInicio(rs.getString("fechainicio"));
+                proyectos.add(proyecto);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return proyectos;
     }
 }

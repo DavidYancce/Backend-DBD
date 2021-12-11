@@ -7,4 +7,5 @@ public class FiltrosBE {
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String rol;
+    private String nombreCargo;
 }
