@@ -27,5 +27,5 @@ public interface FinalService {
     List<Proyecto> obtenerProyectoFull();
     Actividad actualizarActividad (Actividad actividad);
     String insertarProyecto(Datos datos);
-
+    List<FiltrosBP> busquedaProyecto(FiltrosBP filtro);
 }

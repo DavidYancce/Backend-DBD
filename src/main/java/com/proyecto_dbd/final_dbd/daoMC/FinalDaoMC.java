@@ -8,4 +8,5 @@ public interface FinalDaoMC {
     List<Empleado> obtenerEmpleado();
     Empleado login(Empleado empleado);
     Empleado insertarEmpleado(Empleado empleado);
+    List<FiltrosBP> busquedaProyecto(FiltrosBP filtro);
 }

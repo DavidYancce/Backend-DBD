@@ -153,6 +153,15 @@ public class FinalControlador {
     }
 
     @RequestMapping(
+            value = "/busqueda-proyectos",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<FiltrosBP> busquedaProyecto(@RequestBody FiltrosBP filtro) {
+        return service.busquedaProyecto(filtro);
+    }
+
+    @RequestMapping(
             value = "/test",
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST

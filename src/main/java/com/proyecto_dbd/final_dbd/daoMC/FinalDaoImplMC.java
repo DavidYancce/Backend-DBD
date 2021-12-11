@@ -129,4 +129,84 @@ public class FinalDaoImplMC implements FinalDaoMC {
         }
         return empleado;
     }
+
+    public List<FiltrosBP> busquedaProyecto(FiltrosBP filtro) {
+        List<FiltrosBP> registros = new ArrayList<FiltrosBP>();
+        if(filtro.getNombreJefe()==null){
+            filtro.setNombreJefe("");
+        }
+        if(filtro.getEstadoProyecto()==null){
+            filtro.setEstadoProyecto("");
+        }
+        if(filtro.getLineaNegocio()==null){
+            filtro.setLineaNegocio("");
+        }
+        if(filtro.getRazonSocial()==null){
+            filtro.setRazonSocial("");
+        }
+        if(filtro.getNombreProyecto()==null){
+            filtro.setNombreProyecto("");
+        }
+        String sentenciaSQL ="SELECT P.*,E.nombrecompleto,C.razonsocial " +
+                "FROM Proyecto AS P,Empleado AS E " +
+                "JOIN Cliente as C " +
+                "ON P.Ruc = C.Ruc " +
+                "WHERE E.idCargo=3 and " +
+                "1= CASE " +
+                "    WHEN ?='' THEN 1 " +
+                "    WHEN P.NombreProyecto LIKE ? THEN 1 " +
+                "    ELSE 0 " +
+                "    END " +
+                "AND 1 = CASE " +
+                "  WHEN ?='' THEN 1 " +
+                "    WHEN E.NombreCompleto LIKE ? THEN 1 " +
+                "    ELSE 0 " +
+                "    END "  +
+                "AND 1 = CASE " +
+                "    WHEN ?='' THEN 1 " +
+                "    WHEN P.LineaNegocio LIKE ? THEN 1 " +
+                "    ELSE 0 " +
+                "    END " +
+                "AND 1 = CASE  " +
+                "    WHEN ?='' THEN 1 " +
+                "    WHEN C.RazonSocial LIKE ? THEN 1 " +
+                "    ELSE 0 " +
+                "    END " +
+                "AND 1 = CASE " +
+                "    WHEN ? ='' THEN 1 " +
+                "    AND P.Estado LIKE ? THEN 1 " +
+                "    ELSE 0 " +
+                "    END";
+
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement ps = con.prepareStatement(sentenciaSQL);
+            ps.setString(1, filtro.getNombreProyecto().toUpperCase());
+            ps.setString(2, "%"+filtro.getNombreProyecto().toUpperCase()+"%");
+            ps.setString(3, filtro.getNombreJefe());
+            ps.setString(4, filtro.getNombreJefe()+"%");
+            ps.setString(5, filtro.getLineaNegocio().toUpperCase());
+            ps.setString(6, "%"+filtro.getLineaNegocio().toUpperCase()+"%");
+            ps.setString(7, filtro.getRazonSocial().toUpperCase());
+            ps.setString(8, "%"+filtro.getRazonSocial().toUpperCase()+"%");
+            ps.setString(9, filtro.getEstadoProyecto().toUpperCase());
+            ps.setString(10, "%"+filtro.getEstadoProyecto().toUpperCase()+"%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                FiltrosBP registro = new FiltrosBP();
+                registro.setNombreProyecto(rs.getString("nombreproyecto"));
+                registro.setNombreJefe(rs.getString("nombrecompleto"));
+                registro.setRazonSocial(rs.getString("razonsocial"));
+                registro.setLineaNegocio(rs.getString("nombrelinea"));
+                registro.setEstadoProyecto(rs.getString("estado"));
+                registros.add(registro);
+            }
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return registros;
+    }
 }
