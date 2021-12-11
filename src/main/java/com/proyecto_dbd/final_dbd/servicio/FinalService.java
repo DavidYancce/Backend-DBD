@@ -26,4 +26,6 @@ public interface FinalService {
     ContactoCliente insertarContactoCliente (ContactoCliente contactocliente);
     List<Proyecto> obtenerProyectoFull();
     Actividad actualizarActividad (Actividad actividad);
+    String insertarProyecto(Datos datos);
+
 }

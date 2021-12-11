@@ -10,4 +10,5 @@ public interface FinalDaoDZ {
     List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fechas);
     List<Empleado> obtenerColaboradores(Proyecto proyecto);
     List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro);
+    String insertarProyecto(Datos datos);
 }

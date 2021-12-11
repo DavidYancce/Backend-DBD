@@ -46,6 +46,10 @@ public class FinalServiceImpl implements FinalService{
 
     public List<Proyecto> obtenerProyectoFull() { return dao.obtenerProyectoFull(); }
 
+    public String insertarProyecto(Datos datos) {
+        return daoDZ.insertarProyecto(datos);
+    }
+
     public List<Proyecto> obtenerProyectos() {
         return daoDZ.obtenerProyectos();
     }
@@ -81,7 +85,6 @@ public class FinalServiceImpl implements FinalService{
     public List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro) {
         return daoDZ.busquedaEmpleados(filtro);
     }
-
     public ContactoCliente insertarContactoCliente (ContactoCliente contactocliente) {
         return dao.insertarContactoCliente(contactocliente);
     }
@@ -89,4 +92,5 @@ public class FinalServiceImpl implements FinalService{
     public Actividad actualizarActividad (Actividad actividad) {
         return dao.actualizarActividad(actividad);
     }
+
 }
