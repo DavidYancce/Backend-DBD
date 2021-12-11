@@ -54,6 +54,7 @@ public class FinalControlador {
     public @ResponseBody Cliente obtenerNoticiasTendencia(@RequestBody Cliente cliente){
         return service.insertarCliente(cliente);
     }
+
     @RequestMapping(
             value = "/insertar-actividad",
             produces = "application/json;charset=utf-8",
@@ -176,6 +177,15 @@ public class FinalControlador {
     )
     public @ResponseBody List<Proyecto> obtenerProyectoFull() {
         return service.obtenerProyectoFull();
+    }
+
+    @RequestMapping(
+            value = "/insertar-contacto-cliente",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody ContactoCliente insertarContactoCliente(@RequestBody ContactoCliente contactocliente){
+        return service.insertarContactoCliente(contactocliente);
     }
 }
 

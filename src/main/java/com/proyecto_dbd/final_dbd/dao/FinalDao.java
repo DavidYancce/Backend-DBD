@@ -20,5 +20,5 @@ public interface FinalDao {
     List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado();
     List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(Proyecto proyecto);
     List<Proyecto> obtenerProyectoFull();
-
+    ContactoCliente insertarContactoCliente (ContactoCliente contactocliente);
 }

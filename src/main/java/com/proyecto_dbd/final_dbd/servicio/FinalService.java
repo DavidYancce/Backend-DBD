@@ -23,5 +23,6 @@ public interface FinalService {
     List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro);
     Empleado insertarEmpleado(Empleado empleado);
     EmpleadoXProyecto insertarEmpleadoXProyecto(EmpleadoXProyecto empleadoXProyecto);
+    ContactoCliente insertarContactoCliente (ContactoCliente contactocliente);
     List<Proyecto> obtenerProyectoFull();
 }

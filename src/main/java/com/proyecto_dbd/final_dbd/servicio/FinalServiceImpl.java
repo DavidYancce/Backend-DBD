@@ -81,4 +81,8 @@ public class FinalServiceImpl implements FinalService{
     public List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro) {
         return daoDZ.busquedaEmpleados(filtro);
     }
+
+    public ContactoCliente insertarContactoCliente (ContactoCliente contactocliente) {
+        return dao.insertarContactoCliente(contactocliente);
+    }
 }

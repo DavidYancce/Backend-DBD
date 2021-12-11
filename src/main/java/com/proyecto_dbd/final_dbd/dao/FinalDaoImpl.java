@@ -322,4 +322,27 @@ public class FinalDaoImpl implements FinalDao {
 
         return proyectos;
     }
+
+    public ContactoCliente insertarContactoCliente (ContactoCliente contactocliente){
+        String SQL=" INSERT INTO public.clientecontacto( " +
+                " ruc, nombrecompleto, telefono, correoelectronico, direccion) " +
+                " VALUES (?, ?, ?, ?, ?) ";
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement ps = con.prepareStatement(SQL);
+            ps.setString(1, contactocliente.getRuc());
+            ps.setString(2, contactocliente.getNombreCompleto());
+            ps.setString(3, contactocliente.getTelefono());
+            ps.setString(4, contactocliente.getCorreoElectronico());
+            ps.setString(5, contactocliente.getDireccion());
+
+            ps.executeUpdate();
+            ps.close();
+            con.commit();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return contactocliente;
+    }
 }
