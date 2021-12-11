@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*",methods = {RequestMethod.POST})
+@CrossOrigin(origins = "*",methods = {RequestMethod.POST}, allowedHeaders="*")
 
 public class FinalControlador {
 
@@ -113,8 +113,8 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public @ResponseBody List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(@RequestBody String nombreProyecto) {
-        return service.obtenerEmpleadoXProyecto(nombreProyecto);
+    public @ResponseBody List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(@RequestBody String proyecto) {
+        return service.obtenerEmpleadoXProyecto(proyecto);
     }
 
     @RequestMapping(
@@ -138,7 +138,7 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public @ResponseBody List<Empleado> obtenerColabores(@RequestBody Proyecto proyecto) {
+    public @ResponseBody List<Empleado> obtenerColaboradores(@RequestBody Proyecto proyecto) {
         return service.obtenerColaboradores(proyecto);
     }
 
@@ -156,8 +156,26 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public @ResponseBody FiltrosBE test(@RequestBody FiltrosBE filtro) {
+    public @ResponseBody EmpleadoXProyecto test(@RequestBody EmpleadoXProyecto filtro) {
         return filtro;
+    }
+
+    @RequestMapping(
+            value = "/insertar-empleados-proyecto",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody  EmpleadoXProyecto insertarEmpleadoXProyecto (@RequestBody  EmpleadoXProyecto empleadoXProyecto) {
+        return service.insertarEmpleadoXProyecto(empleadoXProyecto);
+    }
+
+    @RequestMapping(
+            value = "/obtener-proyectos-full",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<Proyecto> obtenerProyectoFull() {
+        return service.obtenerProyectoFull();
     }
 }
 

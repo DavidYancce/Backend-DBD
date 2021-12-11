@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class HorasEmpleadoXProyecto {
     private String Empleado;
-    private Integer tiempoRequerido;
+    private Double tiempoRequerido;
     private String Proyecto;
 }

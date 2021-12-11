@@ -19,4 +19,6 @@ public interface FinalDao {
     List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(String nombreProyecto);
     List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado();
     List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(String nombreProyecto);
+    List<Proyecto> obtenerProyectoFull();
+
 }
