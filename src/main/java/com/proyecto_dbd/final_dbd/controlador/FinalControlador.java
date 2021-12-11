@@ -64,6 +64,15 @@ public class FinalControlador {
     }
 
     @RequestMapping(
+            value = "/insertar-empleado",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody Empleado insertarEmpleado(@RequestBody Empleado empleado){
+        return service.insertarEmpleado(empleado);
+    }
+
+    @RequestMapping(
             value = "/obtener-proyectos",
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
