@@ -40,6 +40,12 @@ public class FinalServiceImpl implements FinalService{
         return dao.insertarActividad(actividad);
     }
 
+    public Empleado insertarEmpleado(Empleado empleado) { return daoMC.insertarEmpleado(empleado); }
+
+    public EmpleadoXProyecto insertarEmpleadoXProyecto(EmpleadoXProyecto empleadoXProyecto) { return dao.insertarEmpleadoXProyecto(empleadoXProyecto); }
+
+    public List<Proyecto> obtenerProyectoFull() { return dao.obtenerProyectoFull(); }
+
     public List<Proyecto> obtenerProyectos() {
         return daoDZ.obtenerProyectos();
     }
@@ -55,8 +61,10 @@ public class FinalServiceImpl implements FinalService{
     public List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fechas) {
         return daoDZ.obtenerHorasRegistradasProyecto(Fechas);
     }
+
     public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto) {
         return dao.obtenerEmpleadoXProyecto(proyecto);
+
     }
     public List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado() {
         return dao.obtenerPlanificadoVsRegistrado();
@@ -72,11 +80,5 @@ public class FinalServiceImpl implements FinalService{
 
     public List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro) {
         return daoDZ.busquedaEmpleados(filtro);
-    }
-    public EmpleadoXProyecto insertarEmpleadoXProyecto (EmpleadoXProyecto empleadoXProyecto){
-        return dao.insertarEmpleadoXProyecto(empleadoXProyecto);
-    };
-    public List<Proyecto> obtenerProyectoFull(){
-        return dao.obtenerProyectoFull();
     }
 }

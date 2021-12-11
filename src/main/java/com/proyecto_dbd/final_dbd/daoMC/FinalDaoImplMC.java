@@ -96,4 +96,37 @@ public class FinalDaoImplMC implements FinalDaoMC {
         }
         return empleado;
     }
+
+    public Empleado insertarEmpleado(Empleado empleado) {
+        String SQL=" INSERT INTO Empleado(DNI, nombre1, nombre2, apellidoPaterno, apellidoMaterno, nombreCompleto, correoEmpresarial, contrasenia, telefono, genero," +
+                " estado, direccion, fechaNacimiento, idCargo, sueldo) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement ps = con.prepareStatement(SQL);
+            ps.setString(1, empleado.getDNI());
+            ps.setString(2, empleado.getNombre1());
+            ps.setString(3, empleado.getNombre2());
+            ps.setString(4, empleado.getApellidoPaterno());
+            ps.setString(5, empleado.getApellidoMaterno());
+            ps.setString(6, empleado.getNombreCompleto());
+            ps.setString(7, empleado.getNombre1().toLowerCase()+"."+empleado.getApellidoPaterno().toLowerCase()+"@gestionysistemas.com");
+            ps.setString(8, empleado.getDNI());
+            ps.setString(9, empleado.getTelefono());
+            ps.setString(10, empleado.getGenero());
+            ps.setString(11,"Contratado");
+            ps.setString(12, empleado.getDireccion());
+            ps.setDate(13, Date.valueOf(empleado.getFechaNacimiento()));
+            ps.setInt(14, empleado.getIdCargo());
+            ps.setDouble(15, empleado.getSueldo());
+
+            ps.executeUpdate();
+            ps.close();
+            con.commit();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return empleado;
+    }
 }

@@ -7,4 +7,5 @@ public interface FinalDaoMC {
     List<Cargo> obtenerCargo();
     List<Empleado> obtenerEmpleado();
     Empleado login(Empleado empleado);
+    Empleado insertarEmpleado(Empleado empleado);
 }

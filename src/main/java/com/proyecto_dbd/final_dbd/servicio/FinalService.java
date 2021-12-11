@@ -21,6 +21,7 @@ public interface FinalService {
     List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(Proyecto proyecto);
     List<Empleado> obtenerColaboradores(Proyecto proyecto);
     List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro);
-    EmpleadoXProyecto insertarEmpleadoXProyecto (EmpleadoXProyecto empleadoXProyecto);
+    Empleado insertarEmpleado(Empleado empleado);
+    EmpleadoXProyecto insertarEmpleadoXProyecto(EmpleadoXProyecto empleadoXProyecto);
     List<Proyecto> obtenerProyectoFull();
 }
