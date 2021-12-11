@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class FinalDaoImpl implements FinalDao {
@@ -203,4 +204,85 @@ public class FinalDaoImpl implements FinalDao {
         return resultado;
     }
 
+    public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto) {
+        List<HorasEmpleadoXProyecto> horaep = new ArrayList<HorasEmpleadoXProyecto>();
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            String sentenciaSQL = " SELECT E.nombrecompleto AS Empleado,  P.nombreproyecto AS Proyecto, SUM(A.tiemporequerido) " +
+                                  "FROM actividad A, empleado E, proyecto P WHERE E.dni=A.dni_ejecutor AND A.idproyecto=P.idproyecto " +
+                                  "AND P.idproyecto = ? GROUP BY E.nombrecompleto, P.nombreproyecto ";
+            PreparedStatement ps = con.prepareStatement(sentenciaSQL);
+            ps.setInt(1, proyecto.getIdProyecto());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                HorasEmpleadoXProyecto actividad = new HorasEmpleadoXProyecto();
+                actividad.setEmpleado(rs.getString("Empleado"));
+                actividad.setTiempoRequerido(rs.getDouble("sum"));
+                actividad.setProyecto(rs.getString("Proyecto"));
+
+                horaep.add(actividad);
+            }
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return horaep;
+    }
+
+    public List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado() {
+        List<PlanificadoVsRegistrado> versus = new ArrayList<PlanificadoVsRegistrado>();
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            String sentenciaSQL = " SELECT p.idproyecto, a.fechaingresada, a.fechaplanificada, SUBSTR(AGE(fechaplanificada,fechaingresada), 1, 8) AS diferencia, SUM(A.tiemporequerido) AS tiempo, SUM(A.tiempoplanificado) AS tiempoplanificado FROM Empleado e, Actividad a, Proyecto p WHERE a.planificado = 1 AND e.dni=a.dni_ejecutor AND p.idproyecto=a.idproyecto group by p.idproyecto ;";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sentenciaSQL);
+            while (rs.next()) {
+                PlanificadoVsRegistrado data = new PlanificadoVsRegistrado();
+                data.setProyecto(rs.getString("idproyecto"));
+                data.setFechaReportada(rs.getString("fechaingresada"));
+                data.setFechaPlanificada(rs.getString("fechaplanificada"));
+                data.setDiferencia(rs.getString("diferencia"));
+                data.setTiempoRegistrado(rs.getString("tiempo"));
+                data.setTiempoPlanificado(rs.getString("tiempoplanificado"));
+
+                versus.add(data);
+            }
+            rs.close();
+            st.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return versus;
+    }
+
+    public List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(String nombreProyecto) {
+        List<PlanificadoVsRegistrado> proyecto = new ArrayList<PlanificadoVsRegistrado>();
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            String sentenciaSQL = "SELECT p.idproyecto, a.fechaingresada, a.fechaplanificada, SUBSTR(AGE(fechaplanificada,fechaingresada), 1, 8) AS diferencia, SUM(A.tiemporequerido) AS tiempo, SUM(A.tiempoplanificado) AS tiempoplanificado FROM Empleado e, Actividad a, Proyecto p WHERE a.planificado = 1 AND e.dni=a.dni_ejecutor AND p.idproyecto=a.idproyecto AND p.nombreproyecto=? group by p.idproyecto ;";
+            PreparedStatement ps = con.prepareStatement(sentenciaSQL);
+            ps.setString(1, nombreProyecto);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                PlanificadoVsRegistrado actividad = new PlanificadoVsRegistrado();
+                actividad.setProyecto(rs.getString("idproyecto"));
+                actividad.setFechaReportada(rs.getString("fechaingresada"));
+                actividad.setFechaPlanificada(rs.getString("fechaplanificada"));
+                actividad.setDiferencia(rs.getString("diferencia"));
+                actividad.setTiempoRegistrado(rs.getString("tiempo"));
+                actividad.setTiempoPlanificado(rs.getString("tiempoplanificado"));
+
+                proyecto.add(actividad);
+            }
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return proyecto;
+    }
 }

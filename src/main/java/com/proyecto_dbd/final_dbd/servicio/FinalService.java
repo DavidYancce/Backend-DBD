@@ -7,15 +7,18 @@ import java.util.List;
 
 public interface FinalService {
     List<Cliente> obtenerClientes();
+    List<Cargo> obtenerCargo();
+    List<Empleado> obtenerEmpleado();
+    Empleado login(Empleado empleado);
     Cliente insertarCliente(Cliente cliente);
     Actividad insertarActividad (Actividad actividad);
-    EmpleadoXProyecto insertarEmpleadoXProyecto (EmpleadoXProyecto empleadoXProyecto);
-    List<LineaNegocio> obtenerLineasNegocio();
-    List<DashboardHoraXLinea> horaPorLinea();
-    DashboardHoraXLinea horaPorLineaEspecifica(LineaNegocio lineaNegocio);
     List<Proyecto> obtenerProyectos();
     List<Actividad> obtenerActividades();
     List<Empleado> obtenerJefesProyecto();
-    List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fechas);
+    List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fecha);
+    List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto);
+    List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado();
+    List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(String nombreProyecto);
+    List<Empleado> obtenerColaboradores(Proyecto proyecto);
+    List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro);
 }
-

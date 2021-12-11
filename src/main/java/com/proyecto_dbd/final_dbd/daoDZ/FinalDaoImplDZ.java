@@ -99,7 +99,6 @@ public class FinalDaoImplDZ implements FinalDaoDZ {
     }
 
     public List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fechas) {
-        LocalDate fechaActual = LocalDate.now(ZoneId.of("GMT-05:00"));
         List<HorasRegistradasProyecto> registros = new ArrayList<HorasRegistradasProyecto>();
         String sentenciaSQL = " SELECT pr.nombreProyecto, SUM(ac.tiempoRequerido) " +
                 " FROM actividad as ac " +
@@ -108,10 +107,6 @@ public class FinalDaoImplDZ implements FinalDaoDZ {
                 " WHERE pr.estado !='FN' " +
                 " AND ac.fechaIngresada BETWEEN ? AND ? " +
                 " GROUP BY (pr.nombreProyecto) ";
-        System.out.println("hola");
-        System.out.println(Date.valueOf(fechaActual));
-        System.out.println(Fechas.getFechaInicio());
-        System.out.println(Fechas.getFechaFin());
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
@@ -122,6 +117,116 @@ public class FinalDaoImplDZ implements FinalDaoDZ {
                 HorasRegistradasProyecto registro = new HorasRegistradasProyecto();
                 registro.setNombreProyecto(rs.getString("nombreproyecto"));
                 registro.setSumaHoras(rs.getDouble("SUM"));
+                registros.add(registro);
+            }
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return registros;
+    }
+
+    public List<Empleado> obtenerColaboradores(Proyecto proyecto) {
+        List<Empleado> colaboradores = new ArrayList<Empleado>();
+        String sentenciaSQL = " Select E.DNI, E.NombreCompleto " +
+                "FROM EmpleadoXProyecto  AS EP " +
+                "JOIN Empleado AS E " +
+                "ON E.DNI=EP.DNI " +
+                "WHERE EP.IdProyecto=? ";
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement ps = con.prepareStatement(sentenciaSQL);
+            ps.setInt(1, proyecto.getIdProyecto());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Empleado colaborador = new Empleado();
+                colaborador.setDNI(rs.getString("dni"));
+                colaborador.setNombreCompleto(rs.getString("nombrecompleto"));
+                colaboradores.add(colaborador);
+            }
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return colaboradores;
+    }
+
+    public List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro) {
+        List<RegTablaEmp> registros = new ArrayList<RegTablaEmp>();
+        if(filtro.getDNI()==null){
+            filtro.setDNI("");
+        }
+        if(filtro.getNombreCompleto()==null){
+            filtro.setNombreCompleto("");
+        }
+        if(filtro.getApellidoMaterno()==null){
+            filtro.setApellidoMaterno("");
+        }
+        if(filtro.getApellidoPaterno()==null){
+            filtro.setApellidoPaterno("");
+        }
+        if(filtro.getRol()==null){
+            filtro.setRol("");
+        }
+        String sentenciaSQL = " SELECT E.*, P.NombreProyecto, EP.Rol " +
+                "FROM Empleado AS E " +
+                "JOIN EmpleadoxProyecto AS EP " +
+                "ON EP.DNI=E.DNI " +
+                "JOIN Proyecto AS P " +
+                "ON EP.IdProyecto=P.IdProyecto " +
+                "WHERE " +
+                "1= CASE " +
+                "    WHEN ?='' THEN 1 " +
+                "    WHEN E.DNI LIKE ? THEN 1 " +
+                "    ELSE 0 " +
+                "    END " +
+                "AND 1 = CASE " +
+                "    WHEN ?='' THEN 1 " +
+                "    WHEN upper(E.NombreCompleto) LIKE ? THEN 1 " +
+                "    ELSE 0 " +
+                "    END " +
+                "AND 1 = CASE " +
+                "    WHEN ?='' THEN 1 " +
+                "    WHEN upper(E.ApellidoPaterno) LIKE ? THEN 1 " +
+                "    ELSE 0 " +
+                "    END " +
+                "AND 1 = CASE " +
+                "    WHEN ?='' THEN 1 " +
+                "    WHEN upper(E.ApellidoMaterno) LIKE ? THEN 1 " +
+                "    ELSE 0 " +
+                "    END " +
+                "AND 1 = CASE " +
+                "    WHEN ?='' THEN 1 " +
+                "    WHEN upper(EP.Rol) LIKE ? THEN 1 " +
+                "    ELSE 0 " +
+                "    END ";
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement ps = con.prepareStatement(sentenciaSQL);
+            ps.setString(1, filtro.getDNI());
+            ps.setString(2, filtro.getDNI()+"%");
+            ps.setString(3, filtro.getNombreCompleto().toUpperCase());
+            ps.setString(4, "%"+filtro.getNombreCompleto().toUpperCase()+"%");
+            ps.setString(5, filtro.getApellidoPaterno().toUpperCase());
+            ps.setString(6, "%"+filtro.getApellidoPaterno().toUpperCase()+"%");
+            ps.setString(7, filtro.getApellidoMaterno().toUpperCase());
+            ps.setString(8, "%"+filtro.getApellidoMaterno().toUpperCase()+"%");
+            ps.setString(9, filtro.getRol().toUpperCase());
+            ps.setString(10, "%"+filtro.getRol().toUpperCase()+"%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                RegTablaEmp registro = new RegTablaEmp();
+                registro.setDNI(rs.getString("dni"));
+                registro.setNombre(rs.getString("nombre1")+" "+rs.getString("nombre2"));
+                registro.setCorreoEmpresarial(rs.getString("correoempresarial"));
+                registro.setTelefono(rs.getString("telefono"));
+                registro.setApellidos(rs.getString("apellidoPaterno")+" "+rs.getString("apellidoMaterno"));
+                registro.setNombreProyecto(rs.getString("nombreProyecto"));
+                registro.setRol(rs.getString("rol"));
                 registros.add(registro);
             }
             rs.close();

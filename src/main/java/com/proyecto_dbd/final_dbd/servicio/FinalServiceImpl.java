@@ -2,6 +2,7 @@ package com.proyecto_dbd.final_dbd.servicio;
 
 import com.proyecto_dbd.final_dbd.dao.FinalDao;
 import com.proyecto_dbd.final_dbd.daoDZ.FinalDaoDZ;
+import com.proyecto_dbd.final_dbd.daoMC.FinalDaoMC;
 import com.proyecto_dbd.final_dbd.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,13 +13,20 @@ import java.util.List;
 
 @Service
 @Transactional
-
 public class FinalServiceImpl implements FinalService{
 
     @Autowired
     private FinalDao dao;
     @Autowired
     private FinalDaoDZ daoDZ;
+    @Autowired
+    private FinalDaoMC daoMC;
+
+    public List<Cargo> obtenerCargo() {return daoMC.obtenerCargo();}
+
+    public List<Empleado> obtenerEmpleado() {return daoMC.obtenerEmpleado();}
+
+    public Empleado login(Empleado empleado) {return daoMC.login(empleado);}
 
     public List<Cliente> obtenerClientes() {
         return dao.obtenerClientes();
@@ -30,22 +38,6 @@ public class FinalServiceImpl implements FinalService{
 
     public Actividad insertarActividad(Actividad actividad) {
         return dao.insertarActividad(actividad);
-    }
-
-    public EmpleadoXProyecto insertarEmpleadoXProyecto(EmpleadoXProyecto empleadoXProyecto) {
-        return dao.insertarEmpleadoXProyecto(empleadoXProyecto);
-    }
-
-    public List<LineaNegocio> obtenerLineasNegocio() {
-        return dao.obtenerLineasNegocio();
-    }
-
-    public List<DashboardHoraXLinea> horaPorLinea() {
-        return dao.horaPorLinea();
-    }
-
-    public DashboardHoraXLinea horaPorLineaEspecifica(LineaNegocio lineaNegocio) {
-        return dao.horaPorLineaEspecifica(lineaNegocio);
     }
 
     public List<Proyecto> obtenerProyectos() {
@@ -63,5 +55,22 @@ public class FinalServiceImpl implements FinalService{
     public List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fechas) {
         return daoDZ.obtenerHorasRegistradasProyecto(Fechas);
     }
+    public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto) {
+        return dao.obtenerEmpleadoXProyecto(proyecto);
+    }
+    public List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado() {
+        return dao.obtenerPlanificadoVsRegistrado();
+    }
 
+    public List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(String nombreProyecto) {
+        return dao.obtenerProyectoPlanificadoVsRegistrado(nombreProyecto);
+    }
+
+    public List<Empleado> obtenerColaboradores(Proyecto proyecto){
+        return daoDZ.obtenerColaboradores(proyecto);
+    }
+
+    public List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro) {
+        return daoDZ.busquedaEmpleados(filtro);
+    }
 }

@@ -1,8 +1,5 @@
 package com.proyecto_dbd.final_dbd.controlador;
-import com.proyecto_dbd.final_dbd.dto.Actividad;
-import com.proyecto_dbd.final_dbd.dto.Cliente;
-import com.proyecto_dbd.final_dbd.dto.DashboardHoraXLinea;
-import com.proyecto_dbd.final_dbd.dto.LineaNegocio;
+
 import com.proyecto_dbd.final_dbd.dto.*;
 import com.proyecto_dbd.final_dbd.servicio.FinalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +15,27 @@ public class FinalControlador {
 
     @Autowired
     private FinalService service;
+
+    @RequestMapping(
+            value = "/login",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody Empleado login(@RequestBody Empleado empleado) {return service.login(empleado);}
+
+    @RequestMapping(
+            value = "/obtener-cargos",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<Cargo> obtenerCargo() {return service.obtenerCargo();}
+
+    @RequestMapping(
+            value = "/obtener-empleados",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<Empleado> obtenerEmpleado() {return service.obtenerEmpleado();}
 
     @RequestMapping(
             value = "/obtener-clientes",
@@ -44,34 +62,6 @@ public class FinalControlador {
     public @ResponseBody Actividad insertarActividad(@RequestBody Actividad actividad){
         return service.insertarActividad(actividad);
     }
-
-    @RequestMapping(
-
-            value = "/obtener-lineas-negocio",
-            produces = "application/json;charset=utf-8",
-            method = RequestMethod.POST
-    )
-    public @ResponseBody List<LineaNegocio> obtenerLineasNegocio(){
-        return service.obtenerLineasNegocio();
-    }
-
-    @RequestMapping(
-            value = "/obtener-horas-linea",
-            produces = "application/json;charset=utf-8",
-            method = RequestMethod.POST
-    )
-    public @ResponseBody List<DashboardHoraXLinea> obtenerHoraLinea(){
-        return service.horaPorLinea();
-    }
-
-    @RequestMapping(
-            value = "/obtener-horas-linea-especifica",
-            produces = "application/json;charset=utf-8",
-            method = RequestMethod.POST
-    )
-    public @ResponseBody DashboardHoraXLinea horaPorLineaEspecifica(@RequestBody LineaNegocio lineaNegocio){
-        return service.horaPorLineaEspecifica(lineaNegocio);
-    };
 
     @RequestMapping(
             value = "/obtener-proyectos",
@@ -105,8 +95,60 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public  @ResponseBody List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(@RequestBody RangoFechas Fechas){
-        return service.obtenerHorasRegistradasProyecto(Fechas);
+    public  @ResponseBody List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(@RequestBody RangoFechas Fecha){
+        return service.obtenerHorasRegistradasProyecto(Fecha);
     }
 
+    @RequestMapping(
+            value = "/horas-empleado-proyecto",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(@RequestBody Proyecto proyecto) {
+        return service.obtenerEmpleadoXProyecto(proyecto);
+    }
+
+    @RequestMapping(
+            value = "/obtener-planificado-vs-registrado",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public  @ResponseBody List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado() { return service.obtenerPlanificadoVsRegistrado(); }
+
+    @RequestMapping(
+            value = "/proyecto-registrado-planificado",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(@RequestBody String nombreProyecto) {
+        return service.obtenerProyectoPlanificadoVsRegistrado(nombreProyecto);
+    }
+
+    @RequestMapping(
+            value = "/obtener-colaboradores",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<Empleado> obtenerColabores(@RequestBody Proyecto proyecto) {
+        return service.obtenerColaboradores(proyecto);
+    }
+
+    @RequestMapping(
+            value = "/busqueda-empleados",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<RegTablaEmp> busquedaEmpleados(@RequestBody FiltrosBE filtro) {
+        return service.busquedaEmpleados(filtro);
+    }
+
+    @RequestMapping(
+            value = "/test",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody FiltrosBE test(@RequestBody FiltrosBE filtro) {
+        return filtro;
+    }
 }
+

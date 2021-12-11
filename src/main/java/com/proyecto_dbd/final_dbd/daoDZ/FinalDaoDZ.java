@@ -8,4 +8,6 @@ public interface FinalDaoDZ {
     List<Actividad> obtenerActividades();
     List<Empleado> obtenerJefesProyecto();
     List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fechas);
+    List<Empleado> obtenerColaboradores(Proyecto proyecto);
+    List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro);
 }
