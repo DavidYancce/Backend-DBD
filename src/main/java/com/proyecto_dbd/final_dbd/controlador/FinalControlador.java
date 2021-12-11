@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*",methods = {RequestMethod.POST})
+@CrossOrigin(origins = "*",methods = {RequestMethod.POST}, allowedHeaders="*")
 
 public class FinalControlador {
 
