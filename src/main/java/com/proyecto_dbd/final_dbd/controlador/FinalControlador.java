@@ -187,5 +187,14 @@ public class FinalControlador {
     public @ResponseBody ContactoCliente insertarContactoCliente(@RequestBody ContactoCliente contactocliente){
         return service.insertarContactoCliente(contactocliente);
     }
+
+    @RequestMapping(
+            value = "/actualizar-actividad",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody Actividad actualizarActividad(@RequestBody Actividad actividad){
+        return service.actualizarActividad(actividad);
+    }
 }
 

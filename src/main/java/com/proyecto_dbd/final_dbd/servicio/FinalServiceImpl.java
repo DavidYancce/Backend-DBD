@@ -85,4 +85,8 @@ public class FinalServiceImpl implements FinalService{
     public ContactoCliente insertarContactoCliente (ContactoCliente contactocliente) {
         return dao.insertarContactoCliente(contactocliente);
     }
+
+    public Actividad actualizarActividad (Actividad actividad) {
+        return dao.actualizarActividad(actividad);
+    }
 }

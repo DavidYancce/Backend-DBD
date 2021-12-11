@@ -345,4 +345,27 @@ public class FinalDaoImpl implements FinalDao {
         }
         return contactocliente;
     }
+
+    public Actividad actualizarActividad (Actividad actividad){
+        String SQL=" UPDATE public.actividad "+
+        " SET fechaingresada=?, tiemporequerido=?, idproyecto=?, dni_ejecutor=?, "+
+        " WHERE idactividad=? ";
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement ps = con.prepareStatement(SQL);
+            ps.setString(1, actividad.getFechaIngresada());
+            ps.setDouble(2, actividad.getTiempoRequerido());
+            ps.setInt(3, actividad.getIdProyecto());
+            ps.setString(4, actividad.getDniEjecutor());
+            ps.setInt(5, actividad.getIdActividad());
+
+            ps.executeUpdate();
+            ps.close();
+            con.commit();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return actividad;
+    }
 }
