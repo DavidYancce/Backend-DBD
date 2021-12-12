@@ -66,8 +66,6 @@ public class FinalDaoImpl implements FinalDao {
 
     public Actividad insertarActividad(Actividad actividad){
         //Dependiendo de si es una actividad planificada o no se ejecuta una sentencia u otra
-
-        LocalDate fechaActual = LocalDate.now(ZoneId.of("GMT-05:00"));
         String SQL_Planificado=" INSERT INTO Actividad( " +
                 " descripcion, idproyecto, dni_ejecutor, dni_planificador, fechaplanificada, tiempoplanificado, planificado) " +
                 " VALUES (?, ?, ?, ?, ?, ?,?)";
@@ -84,7 +82,7 @@ public class FinalDaoImpl implements FinalDao {
                 ps.setInt(2,actividad.getIdProyecto());
                 ps.setString(3,actividad.getDniEjecutor());
                 ps.setString(4,actividad.getDniPlanificador());
-                ps.setDate(5,Date.valueOf(fechaActual));
+                ps.setDate(5,Date.valueOf(actividad.getFechaPlanificada()));
                 ps.setDouble(6,actividad.getTiempoPlanificado());
                 ps.setInt(7,actividad.getPlanificado());
                 ps.executeUpdate();
@@ -92,7 +90,7 @@ public class FinalDaoImpl implements FinalDao {
             }
             else if (actividad.getPlanificado()==0){
                 PreparedStatement ps = con.prepareStatement(SQL_NoPlanificado);
-                ps.setDate(1,Date.valueOf(fechaActual));
+                ps.setDate(1,Date.valueOf(actividad.getFechaPlanificada()));
                 ps.setDouble(2, actividad.getTiempoRequerido());
                 ps.setString(3,actividad.getDescripcion());
                 ps.setInt(4,actividad.getIdProyecto());
@@ -315,15 +313,17 @@ public class FinalDaoImpl implements FinalDao {
 
     public Actividad actualizarActividad (Actividad actividad){
         String SQL=" UPDATE public.actividad "+
-        " SET fechaingresada=?, tiemporequerido=?, idproyecto=?, dni_ejecutor=? "+
-        " WHERE idactividad=1 ";
+        " SET fechaingresada=?, tiemporequerido=?, idproyecto=?, dni_ejecutor=?, descripcion=? "+
+        " WHERE idactividad=? ";
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement ps = con.prepareStatement(SQL);
-            ps.setString(1, actividad.getFechaIngresada());
+            ps.setDate(1, Date.valueOf(actividad.getFechaIngresada()));
             ps.setDouble(2, actividad.getTiempoRequerido());
             ps.setInt(3, actividad.getIdProyecto());
             ps.setString(4, actividad.getDniEjecutor());
+            ps.setString(5,actividad.getDescripcion());
+            ps.setInt(6,actividad.getIdActividad());
 
             ps.executeUpdate();
             ps.close();
