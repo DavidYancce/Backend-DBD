@@ -315,8 +315,8 @@ public class FinalDaoImpl implements FinalDao {
 
     public Actividad actualizarActividad (Actividad actividad){
         String SQL=" UPDATE public.actividad "+
-        " SET fechaingresada=?, tiemporequerido=?, idproyecto=?, dni_ejecutor=?, "+
-        " WHERE idactividad=? ";
+        " SET fechaingresada=?, tiemporequerido=?, idproyecto=?, dni_ejecutor=? "+
+        " WHERE idactividad=1 ";
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement ps = con.prepareStatement(SQL);
@@ -324,7 +324,6 @@ public class FinalDaoImpl implements FinalDao {
             ps.setDouble(2, actividad.getTiempoRequerido());
             ps.setInt(3, actividad.getIdProyecto());
             ps.setString(4, actividad.getDniEjecutor());
-            ps.setInt(5, actividad.getIdActividad());
 
             ps.executeUpdate();
             ps.close();
