@@ -119,13 +119,6 @@ public class FinalControlador {
     }
 
     @RequestMapping(
-            value = "/obtener-planificado-vs-registrado",
-            produces = "application/json;charset=utf-8",
-            method = RequestMethod.POST
-    )
-    public  @ResponseBody List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado() { return service.obtenerPlanificadoVsRegistrado(); }
-
-    @RequestMapping(
             value = "/proyecto-registrado-planificado",
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST

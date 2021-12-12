@@ -79,9 +79,6 @@ public class FinalServiceImpl implements FinalService{
         return dao.obtenerEmpleadoXProyecto(proyecto);
 
     }
-    public List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado() {
-        return dao.obtenerPlanificadoVsRegistrado();
-    }
 
     public List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(Proyecto proyecto) {
         return dao.obtenerProyectoPlanificadoVsRegistrado(proyecto);
