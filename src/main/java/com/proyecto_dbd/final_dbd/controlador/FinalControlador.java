@@ -229,5 +229,13 @@ public class FinalControlador {
     public @ResponseBody List<LineaNegocio> obtenerLineasNegocio(){
         return service.obtenerLineasNegocio();
     }
+    @RequestMapping(
+            value = "/tabla-lineas",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<DashboardHoraXLinea> horaPorLinea(){
+        return service.horaPorLinea();
+    }
 }
 

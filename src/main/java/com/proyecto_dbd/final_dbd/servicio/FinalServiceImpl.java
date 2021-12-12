@@ -60,6 +60,11 @@ public class FinalServiceImpl implements FinalService{
         return dao.obtenerLineasNegocio();
     }
 
+    @Override
+    public List<DashboardHoraXLinea> horaPorLinea() {
+        return dao.horaPorLinea();
+    }
+
     public List<Proyecto> obtenerProyectos() {
         return daoDZ.obtenerProyectos();
     }

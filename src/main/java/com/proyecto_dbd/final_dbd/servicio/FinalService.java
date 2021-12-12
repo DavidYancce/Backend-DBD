@@ -30,4 +30,5 @@ public interface FinalService {
     List<FiltrosBP> busquedaProyecto(FiltrosBP filtro);
     DashboardHoraXLinea horaPorLineaEspecifica(LineaNegocio lineaNegocio);
     List<LineaNegocio> obtenerLineasNegocio();
+    List<DashboardHoraXLinea> horaPorLinea();
 }
