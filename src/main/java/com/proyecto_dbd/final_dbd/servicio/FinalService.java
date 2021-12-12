@@ -28,4 +28,6 @@ public interface FinalService {
     Actividad actualizarActividad (Actividad actividad);
     String insertarProyecto(Datos datos);
     List<FiltrosBP> busquedaProyecto(FiltrosBP filtro);
+    DashboardHoraXLinea horaPorLineaEspecifica(LineaNegocio lineaNegocio);
+    List<LineaNegocio> obtenerLineasNegocio();
 }

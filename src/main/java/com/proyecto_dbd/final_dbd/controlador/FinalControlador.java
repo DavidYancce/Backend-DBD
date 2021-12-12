@@ -213,5 +213,21 @@ public class FinalControlador {
     public @ResponseBody Actividad actualizarActividad(@RequestBody Actividad actividad){
         return service.actualizarActividad(actividad);
     }
+    @RequestMapping(
+            value = "/horas-linea",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody DashboardHoraXLinea horaPorLineaEspecifica(@RequestBody LineaNegocio lineaNegocio){
+        return service.horaPorLineaEspecifica(lineaNegocio);
+    }
+    @RequestMapping(
+            value = "/obtener-lineas",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<LineaNegocio> obtenerLineasNegocio(){
+        return service.obtenerLineasNegocio();
+    }
 }
 

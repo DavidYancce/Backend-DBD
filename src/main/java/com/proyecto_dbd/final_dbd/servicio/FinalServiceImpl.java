@@ -51,6 +51,15 @@ public class FinalServiceImpl implements FinalService{
     }
     public List<FiltrosBP> busquedaProyecto(FiltrosBP filtro) { return daoMC.busquedaProyecto(filtro); }
 
+    public DashboardHoraXLinea horaPorLineaEspecifica(LineaNegocio lineaNegocio) {
+        return dao.horaPorLineaEspecifica(lineaNegocio);
+    }
+
+    @Override
+    public List<LineaNegocio> obtenerLineasNegocio() {
+        return dao.obtenerLineasNegocio();
+    }
+
     public List<Proyecto> obtenerProyectos() {
         return daoDZ.obtenerProyectos();
     }
