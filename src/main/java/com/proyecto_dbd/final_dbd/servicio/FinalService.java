@@ -17,7 +17,6 @@ public interface FinalService {
     List<Empleado> obtenerJefesProyecto();
     List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fecha);
     List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto);
-    List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado();
     List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(Proyecto proyecto);
     List<Empleado> obtenerColaboradores(Proyecto proyecto);
     List<RegTablaEmp> busquedaEmpleados(FiltrosBE filtro);
@@ -28,4 +27,6 @@ public interface FinalService {
     Actividad actualizarActividad (Actividad actividad);
     String insertarProyecto(Datos datos);
     List<FiltrosBP> busquedaProyecto(FiltrosBP filtro);
+    List<LineaNegocio> obtenerLineasNegocio();
+    List<DashboardHoraXLinea> horaPorLinea(LineaNegocio linea);
 }

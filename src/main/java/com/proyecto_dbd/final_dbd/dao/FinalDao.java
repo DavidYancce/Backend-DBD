@@ -14,10 +14,8 @@ public interface FinalDao {
     Actividad insertarActividad(Actividad actividad);
     EmpleadoXProyecto insertarEmpleadoXProyecto (EmpleadoXProyecto empleadoXProyecto);
     List<LineaNegocio> obtenerLineasNegocio();
-    List<DashboardHoraXLinea> horaPorLinea();
-    DashboardHoraXLinea horaPorLineaEspecifica(LineaNegocio lineaNegocio);
+    List<DashboardHoraXLinea> horaPorLinea(LineaNegocio linea);
     List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto);
-    List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado();
     List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(Proyecto proyecto);
     List<Proyecto> obtenerProyectoFull();
     ContactoCliente insertarContactoCliente (ContactoCliente contactocliente);

@@ -47,9 +47,17 @@ public class FinalServiceImpl implements FinalService{
     public List<Proyecto> obtenerProyectoFull() { return dao.obtenerProyectoFull(); }
 
     public String insertarProyecto(Datos datos) {
-        return daoDZ.insertarProyecto(datos);
+        return daoMC.insertarProyecto(datos);
     }
     public List<FiltrosBP> busquedaProyecto(FiltrosBP filtro) { return daoMC.busquedaProyecto(filtro); }
+
+    public List<LineaNegocio> obtenerLineasNegocio() {
+        return dao.obtenerLineasNegocio();
+    }
+
+    public List<DashboardHoraXLinea> horaPorLinea(LineaNegocio linea) {
+        return dao.horaPorLinea(linea);
+    }
 
     public List<Proyecto> obtenerProyectos() {
         return daoDZ.obtenerProyectos();
@@ -70,9 +78,6 @@ public class FinalServiceImpl implements FinalService{
     public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto) {
         return dao.obtenerEmpleadoXProyecto(proyecto);
 
-    }
-    public List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado() {
-        return dao.obtenerPlanificadoVsRegistrado();
     }
 
     public List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(Proyecto proyecto) {

@@ -155,53 +155,41 @@ public class FinalDaoImpl implements FinalDao {
         return lineasNegocio;
     }
     //Testeado
-    public List<DashboardHoraXLinea> horaPorLinea(){
-        List<DashboardHoraXLinea> resultados = new ArrayList<>();
+    public List<DashboardHoraXLinea> horaPorLinea(LineaNegocio linea){
+        if(linea.getIdLinea()==null){
+            linea.setIdLinea(0);
+        }
+        List<DashboardHoraXLinea> registros = new ArrayList<DashboardHoraXLinea>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
-            String sentenciaSQL = " SELECT LN.nombrelinea, SUM(A.tiemporequerido) " +
-                    " FROM actividad A, lineanegocio LN, proyecto P  " +
-                    " WHERE A.idproyecto=P.idproyecto  " +
-                    " AND P.idlinea=LN.idlinea  " +
-                    " GROUP BY LN.nombrelinea; ";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sentenciaSQL);
+            String sentenciaSQL = "SELECT LN.nombrelinea, SUM(A.tiemporequerido) " +
+                    "FROM actividad A, lineanegocio LN, proyecto P " +
+                    "WHERE A.idproyecto=P.idproyecto " +
+                    "AND P.idlinea=LN.idlinea " +
+                    "AND 1=CASE " +
+                    "WHEN ?=0 THEN 1 " +
+                    "WHEN LN.idlinea=? THEN 1 " +
+                    "ELSE 0 " +
+                    "END " +
+                    "GROUP BY LN.nombrelinea " +
+                    "ORDER BY LN.nombrelinea";
+            PreparedStatement ps = con.prepareStatement(sentenciaSQL);
+            ps.setInt(1, linea.getIdLinea());
+            ps.setInt(2, linea.getIdLinea());
+            ResultSet rs = ps.executeQuery();
             while(rs.next()) {
-                DashboardHoraXLinea resultado = new DashboardHoraXLinea();
-                resultado.setSumaHoras(rs.getDouble("sum"));
-                resultado.setNombreLinea(rs.getString("nombreLinea"));
-                resultados.add(resultado);
+                DashboardHoraXLinea registro = new DashboardHoraXLinea();
+                registro.setSumaHoras(rs.getDouble("sum"));
+                registro.setNombreLinea(rs.getString("nombreLinea"));
+                registros.add(registro);
             }
             rs.close();
-            st.close();
+            ps.close();
             con.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return resultados;
-    }
-    //Testeado
-    public DashboardHoraXLinea horaPorLineaEspecifica(LineaNegocio lineaNegocio){
-        String SQL=" SELECT LN.nombrelinea, SUM(A.tiemporequerido) " +
-                " FROM actividad A, lineanegocio LN, proyecto P " +
-                " WHERE A.idproyecto=P.idproyecto " +
-                " AND P.idlinea=LN.idlinea " +
-                " AND LN.idlinea= "  + lineaNegocio.getIdLinea() +
-                " GROUP BY LN.nombrelinea ";
-        DashboardHoraXLinea resultado =  new DashboardHoraXLinea();;
-        try {
-            Connection con = jdbcTemplate.getDataSource().getConnection();
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(SQL);
-            while (rs.next()) {
-                resultado.setNombreLinea(rs.getString("nombrelinea"));
-                resultado.setSumaHoras(rs.getDouble("sum"));
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        return resultado;
+        return registros;
     }
 
     public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto) {
@@ -233,59 +221,36 @@ public class FinalDaoImpl implements FinalDao {
         return horaep;
     }
 
-    public List<PlanificadoVsRegistrado> obtenerPlanificadoVsRegistrado() {
-        List<PlanificadoVsRegistrado> versus = new ArrayList<PlanificadoVsRegistrado>();
-        try {
-            Connection con = jdbcTemplate.getDataSource().getConnection();
-            String sentenciaSQL = " SELECT p.idproyecto, a.fechaingresada, a.fechaplanificada, "+
-                    " AGE(fechaingresada, fechaplanificada) AS diferencia, SUM(A.tiemporequerido) AS tiempo, "+
-                    " SUM(A.tiempoplanificado) AS tiempoplanificado FROM Empleado e, Actividad a, Proyecto p "+
-                    " WHERE a.planificado = 1 AND e.dni=a.dni_ejecutor AND p.idproyecto=a.idproyecto "+
-                    " group by p.idproyecto,a.fechaingresada, a.fechaplanificada ";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sentenciaSQL);
-            while (rs.next()) {
-                PlanificadoVsRegistrado data = new PlanificadoVsRegistrado();
-                data.setProyecto(rs.getString("idproyecto"));
-                data.setFechaReportada(rs.getString("fechaingresada"));
-                data.setFechaPlanificada(rs.getString("fechaplanificada"));
-                data.setDiferencia(rs.getString("diferencia"));
-                data.setTiempoRegistrado(rs.getString("tiempo"));
-                data.setTiempoPlanificado(rs.getString("tiempoplanificado"));
-
-                versus.add(data);
-            }
-            rs.close();
-            st.close();
-            con.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return versus;
-    }
-
     public List<PlanificadoVsRegistrado> obtenerProyectoPlanificadoVsRegistrado(Proyecto proyect) {
+        if(proyect.getNombreProyecto()==null){
+            proyect.setNombreProyecto("");
+        }
         List<PlanificadoVsRegistrado> proyecto = new ArrayList<PlanificadoVsRegistrado>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
-            String sentenciaSQL = " SELECT p.idproyecto, a.fechaingresada, a.fechaplanificada, "+
-                    " AGE(fechaingresada,fechaplanificada) AS diferencia, "+
-                    " SUM(A.tiemporequerido) AS tiempo, SUM(A.tiempoplanificado) AS tiempoplanificado "+
-                    " FROM Empleado e, Actividad a, Proyecto p WHERE a.planificado = 1 AND "+
-                    " e.dni=a.dni_ejecutor AND p.idproyecto=a.idproyecto AND p.idproyecto=? "+
-                    " group by p.idproyecto, a.fechaingresada, a.fechaplanificada ";
+            String sentenciaSQL = "SELECT p.nombreproyecto, p.idproyecto, a.fechaingresada, a.fechaplanificada, " +
+                    "AGE(fechaingresada,fechaplanificada) AS diferencia, " +
+                    "SUM(A.tiemporequerido) AS tiempo, SUM(A.tiempoplanificado) AS tiempoplanificado " +
+                    "FROM Empleado e, Actividad a, Proyecto p WHERE a.planificado = 1 AND " +
+                    "e.dni=a.dni_ejecutor AND p.idproyecto=a.idproyecto " +
+                    "AND 1=CASE " +
+                    "WHEN ?='' THEN 1 " +
+                    "WHEN p.nombreproyecto=? THEN 1 " +
+                    "ELSE 0 " +
+                    "END " +
+                    "GROUP BY p.idproyecto, a.fechaingresada, a.fechaplanificada";
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
-            ps.setInt(1, proyect.getIdProyecto());
+            ps.setString(1, proyect.getNombreProyecto());
+            ps.setString(2, proyect.getNombreProyecto());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 PlanificadoVsRegistrado actividad = new PlanificadoVsRegistrado();
-                actividad.setProyecto(rs.getString("idproyecto"));
+                actividad.setProyecto(rs.getString("nombreproyecto"));
                 actividad.setFechaReportada(rs.getString("fechaingresada"));
                 actividad.setFechaPlanificada(rs.getString("fechaplanificada"));
                 actividad.setDiferencia(rs.getString("diferencia"));
                 actividad.setTiempoRegistrado(rs.getString("tiempo"));
                 actividad.setTiempoPlanificado(rs.getString("tiempoplanificado"));
-
                 proyecto.add(actividad);
             }
             rs.close();
