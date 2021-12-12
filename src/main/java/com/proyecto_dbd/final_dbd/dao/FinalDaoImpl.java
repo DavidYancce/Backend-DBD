@@ -155,10 +155,7 @@ public class FinalDaoImpl implements FinalDao {
         return lineasNegocio;
     }
     //Testeado
-    public List<DashboardHoraXLinea> horaPorLinea(LineaNegocio linea){
-        if(linea.getIdLinea()==null){
-            linea.setIdLinea(0);
-        }
+    public List<DashboardHoraXLinea> horaPorLinea(RangoFechas Fechas){
         List<DashboardHoraXLinea> registros = new ArrayList<DashboardHoraXLinea>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
@@ -166,16 +163,12 @@ public class FinalDaoImpl implements FinalDao {
                     "FROM actividad A, lineanegocio LN, proyecto P " +
                     "WHERE A.idproyecto=P.idproyecto " +
                     "AND P.idlinea=LN.idlinea " +
-                    "AND 1=CASE " +
-                    "WHEN ?=0 THEN 1 " +
-                    "WHEN LN.idlinea=? THEN 1 " +
-                    "ELSE 0 " +
-                    "END " +
+                    "AND A.fechaIngresada BETWEEN ? AND ? " +
                     "GROUP BY LN.nombrelinea " +
                     "ORDER BY LN.nombrelinea";
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
-            ps.setInt(1, linea.getIdLinea());
-            ps.setInt(2, linea.getIdLinea());
+            ps.setDate(1, Date.valueOf(Fechas.getFechaInicio()));
+            ps.setDate(2, Date.valueOf(Fechas.getFechaFin()));
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 DashboardHoraXLinea registro = new DashboardHoraXLinea();
@@ -193,16 +186,25 @@ public class FinalDaoImpl implements FinalDao {
     }
 
     public List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto) {
+        if(proyecto.getIdProyecto()==null){
+            proyecto.setIdProyecto(0);
+        }
         List<HorasEmpleadoXProyecto> horaep = new ArrayList<HorasEmpleadoXProyecto>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
             String sentenciaSQL = " SELECT E.nombrecompleto AS Empleado, "+
                     " P.nombreproyecto AS Proyecto, SUM(A.tiemporequerido) "+
                     " FROM actividad A, empleado E, proyecto P "+
-                    " WHERE E.dni=A.dni_ejecutor AND A.idproyecto=P.idproyecto AND P.idproyecto=? " +
+                    " WHERE E.dni=A.dni_ejecutor AND A.idproyecto=P.idproyecto " +
+                    " AND 1=CASE " +
+                    " WHEN ?=0 THEN 1 " +
+                    " WHEN P.idproyecto=? THEN 1 " +
+                    " ELSE 0 " +
+                    " END " +
                     " GROUP BY e.nombrecompleto, p.nombreproyecto ";
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
             ps.setInt(1, proyecto.getIdProyecto());
+            ps.setInt(2, proyecto.getIdProyecto());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 HorasEmpleadoXProyecto actividad = new HorasEmpleadoXProyecto();

@@ -211,8 +211,8 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public @ResponseBody List<DashboardHoraXLinea> horaPorLinea(@RequestBody LineaNegocio linea){
-        return service.horaPorLinea(linea);
+    public @ResponseBody List<DashboardHoraXLinea> horaPorLinea(@RequestBody RangoFechas Fechas){
+        return service.horaPorLinea(Fechas);
     }
 
     @RequestMapping(

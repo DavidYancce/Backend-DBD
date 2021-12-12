@@ -55,8 +55,8 @@ public class FinalServiceImpl implements FinalService{
         return dao.obtenerLineasNegocio();
     }
 
-    public List<DashboardHoraXLinea> horaPorLinea(LineaNegocio linea) {
-        return dao.horaPorLinea(linea);
+    public List<DashboardHoraXLinea> horaPorLinea(RangoFechas Fechas) {
+        return dao.horaPorLinea(Fechas);
     }
 
     public List<Proyecto> obtenerProyectos() {

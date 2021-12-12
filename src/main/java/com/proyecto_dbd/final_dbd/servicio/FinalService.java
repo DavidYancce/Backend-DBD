@@ -28,5 +28,5 @@ public interface FinalService {
     String insertarProyecto(Datos datos);
     List<FiltrosBP> busquedaProyecto(FiltrosBP filtro);
     List<LineaNegocio> obtenerLineasNegocio();
-    List<DashboardHoraXLinea> horaPorLinea(LineaNegocio linea);
+    List<DashboardHoraXLinea> horaPorLinea(RangoFechas Fechas);
 }
