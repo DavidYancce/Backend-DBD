@@ -50,7 +50,7 @@ public class FinalDaoImplDZ implements FinalDaoDZ {
         List<Actividad> actividades = new ArrayList<Actividad>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
-            String sentenciaSQL = " SELECT * FROM Actividad ";
+            String sentenciaSQL = " SELECT * FROM Actividad WHERE planificado=1 AND fechaingresada is null";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sentenciaSQL);
             while (rs.next()) {

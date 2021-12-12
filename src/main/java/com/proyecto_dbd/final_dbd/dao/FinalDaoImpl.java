@@ -90,7 +90,7 @@ public class FinalDaoImpl implements FinalDao {
             }
             else if (actividad.getPlanificado()==0){
                 PreparedStatement ps = con.prepareStatement(SQL_NoPlanificado);
-                ps.setDate(1,Date.valueOf(actividad.getFechaPlanificada()));
+                ps.setDate(1,Date.valueOf(actividad.getFechaIngresada()));
                 ps.setDouble(2, actividad.getTiempoRequerido());
                 ps.setString(3,actividad.getDescripcion());
                 ps.setInt(4,actividad.getIdProyecto());
