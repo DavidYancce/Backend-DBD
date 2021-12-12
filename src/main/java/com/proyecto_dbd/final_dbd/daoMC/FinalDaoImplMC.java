@@ -219,30 +219,58 @@ public class FinalDaoImplMC implements FinalDaoMC {
         }
         return registros;
     }
+    private Integer obtenerIdProyectoPorNombreProyecto(String _nombreProyecto){
+        String SQL="select idproyecto from proyecto where nombreProyecto = ? ";
+        Integer idProyecto=-1;
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement ps = con.prepareStatement(SQL);
+            ps.setString(1, _nombreProyecto);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                idProyecto=rs.getInt("idProyecto");
+            }
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return idProyecto;
+    }
     public String insertarProyecto(Datos datos) {
-        String SQL1=" insert into proyecto(estado,nombreproyecto,idproyecto,fechainicio,fechafin,ruc,idlinea) values (?,?,?,?,?,?,?) ";
+        String SQL1=" insert into proyecto(estado,nombreproyecto,fechainicio,fechafin,ruc,idlinea) values (?,?,?,?,?,?) ";
         String SQL2=" insert into empleadoxproyecto(dni,idproyecto,rol,descripcion) values (?,?,?,?) ";
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement ps = con.prepareStatement(SQL1);
             ps.setString(1, "NI");
             ps.setString(2, datos.getNombreProyecto());
-            ps.setInt(3, datos.getIdProyecto());
-            ps.setDate(4, Date.valueOf(datos.getFechaInicio()));
-            ps.setDate(5, Date.valueOf(datos.getFechaFin()));
-            ps.setString(6, datos.getRUC());
-            ps.setInt(7,datos.getIdLinea());
-            PreparedStatement pst = con.prepareStatement(SQL2);
-            pst.setString(1, datos.getDni());
-            pst.setInt(2, datos.getIdProyecto());
-            pst.setString(3, "Jefe de proyecto");
-            pst.setString(4,"Lider "+datos.getNombreProyecto());
+            ps.setDate(3, Date.valueOf(datos.getFechaInicio()));
+            ps.setDate(4, Date.valueOf(datos.getFechaFin()));
+            ps.setString(5, datos.getRUC());
+            ps.setInt(6,datos.getIdLinea());
             ps.executeUpdate();
-            pst.executeUpdate();
             ps.close();
-            pst.close();
             con.commit();
             con.close();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        try {
+            Connection con2 = jdbcTemplate.getDataSource().getConnection();
+            Integer _idProyecto = obtenerIdProyectoPorNombreProyecto(datos.getNombreProyecto());
+            PreparedStatement pst = con2.prepareStatement(SQL2);
+            pst.setString(1, datos.getDni());
+            pst.setInt(2, _idProyecto);
+            pst.setString(3, "Jefe de proyecto");
+            pst.setString(4,"Lider "+datos.getNombreProyecto());
+            pst.executeUpdate();
+            pst.close();
+            con2.commit();
+            con2.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
