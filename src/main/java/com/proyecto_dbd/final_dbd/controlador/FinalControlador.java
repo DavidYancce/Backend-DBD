@@ -42,7 +42,7 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public @ResponseBody List<Cliente> obtenerNoticiasTendencia(){
+    public @ResponseBody List<Cliente> obtenerClientes(){
         return service.obtenerClientes();
     }
 
