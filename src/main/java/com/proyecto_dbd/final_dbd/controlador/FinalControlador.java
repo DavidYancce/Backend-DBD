@@ -162,15 +162,6 @@ public class FinalControlador {
     }
 
     @RequestMapping(
-            value = "/test",
-            produces = "application/json;charset=utf-8",
-            method = RequestMethod.POST
-    )
-    public @ResponseBody FiltrosBP test(@RequestBody FiltrosBP filtro) {
-        return filtro;
-    }
-
-    @RequestMapping(
             value = "/insertar-empleados-proyecto",
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
@@ -213,14 +204,7 @@ public class FinalControlador {
     public @ResponseBody Actividad actualizarActividad(@RequestBody Actividad actividad){
         return service.actualizarActividad(actividad);
     }
-    @RequestMapping(
-            value = "/horas-linea",
-            produces = "application/json;charset=utf-8",
-            method = RequestMethod.POST
-    )
-    public @ResponseBody DashboardHoraXLinea horaPorLineaEspecifica(@RequestBody LineaNegocio lineaNegocio){
-        return service.horaPorLineaEspecifica(lineaNegocio);
-    }
+
     @RequestMapping(
             value = "/obtener-lineas",
             produces = "application/json;charset=utf-8",
@@ -228,6 +212,23 @@ public class FinalControlador {
     )
     public @ResponseBody List<LineaNegocio> obtenerLineasNegocio(){
         return service.obtenerLineasNegocio();
+    }
+    @RequestMapping(
+            value = "/tabla-lineas",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<DashboardHoraXLinea> horaPorLinea(@RequestBody LineaNegocio linea){
+        return service.horaPorLinea(linea);
+    }
+
+    @RequestMapping(
+            value = "/test",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody LineaNegocio test(@RequestBody LineaNegocio linea) {
+        return linea;
     }
 }
 
