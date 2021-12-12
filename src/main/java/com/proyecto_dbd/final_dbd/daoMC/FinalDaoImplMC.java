@@ -219,4 +219,33 @@ public class FinalDaoImplMC implements FinalDaoMC {
         }
         return registros;
     }
+    public String insertarProyecto(Datos datos) {
+        String SQL1=" insert into proyecto(estado,nombreproyecto,idproyecto,fechainicio,fechafin,ruc,idlinea) values (?,?,?,?,?,?,?) ";
+        String SQL2=" insert into empleadoxproyecto(dni,idproyecto,rol,descripcion) values (?,?,?,?) ";
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement ps = con.prepareStatement(SQL1);
+            ps.setString(1, "NI");
+            ps.setString(2, datos.getNombreProyecto());
+            ps.setInt(3, datos.getIdProyecto());
+            ps.setDate(4, Date.valueOf(datos.getFechaInicio()));
+            ps.setDate(5, Date.valueOf(datos.getFechaFin()));
+            ps.setString(6, datos.getRUC());
+            ps.setInt(7,datos.getIdLinea());
+            PreparedStatement pst = con.prepareStatement(SQL2);
+            pst.setString(1, datos.getDni());
+            pst.setInt(2, datos.getIdProyecto());
+            pst.setString(3, "Jefe de proyecto");
+            pst.setString(4,"Lider "+datos.getNombreProyecto());
+            ps.executeUpdate();
+            pst.executeUpdate();
+            ps.close();
+            pst.close();
+            con.commit();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return "Proyecto registrado correctamente";
+    }
 }

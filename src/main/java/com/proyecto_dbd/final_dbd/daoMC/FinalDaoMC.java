@@ -9,4 +9,5 @@ public interface FinalDaoMC {
     Empleado login(Empleado empleado);
     Empleado insertarEmpleado(Empleado empleado);
     List<FiltrosBP> busquedaProyecto(FiltrosBP filtro);
+    String insertarProyecto(Datos datos);
 }
