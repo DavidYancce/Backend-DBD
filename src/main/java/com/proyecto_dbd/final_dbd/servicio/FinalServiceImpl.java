@@ -99,4 +99,7 @@ public class FinalServiceImpl implements FinalService{
         return dao.actualizarActividad(actividad);
     }
 
+    public List<Actividad> actividadesXEmpleadoXProyecto(FiltroEmpleadoProyecto filtro){
+        return dao.actividadesXEmpleadoXProyecto(filtro);
+    }
 }

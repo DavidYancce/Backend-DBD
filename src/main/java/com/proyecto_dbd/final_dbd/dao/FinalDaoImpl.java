@@ -90,7 +90,7 @@ public class FinalDaoImpl implements FinalDao {
             }
             else if (actividad.getPlanificado()==0){
                 PreparedStatement ps = con.prepareStatement(SQL_NoPlanificado);
-                ps.setDate(1,Date.valueOf(actividad.getFechaPlanificada()));
+                ps.setDate(1,Date.valueOf(actividad.getFechaIngresada()));
                 ps.setDouble(2, actividad.getTiempoRequerido());
                 ps.setString(3,actividad.getDescripcion());
                 ps.setInt(4,actividad.getIdProyecto());
@@ -333,5 +333,39 @@ public class FinalDaoImpl implements FinalDao {
             throwables.printStackTrace();
         }
         return actividad;
+    }
+
+    public List<Actividad> actividadesXEmpleadoXProyecto(FiltroEmpleadoProyecto filtro) {
+
+        List<Actividad> actividades = new ArrayList<>();
+        try {
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            String sentenciaSQL = " select * from actividad where idproyecto=? and planificado=1 and dni_ejecutor=? ";
+            PreparedStatement ps = con.prepareStatement(sentenciaSQL);
+            ps.setInt(1, filtro.getIdProyecto());
+            ps.setString(2, filtro.getDniEmpleado());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Actividad actividad = new Actividad();
+                actividad.setIdActividad(rs.getInt("idActividad"));
+                actividad.setFechaIngresada(rs.getString("fechaingresada"));
+                actividad.setTiempoRequerido(rs.getDouble("tiemporequerido"));
+                actividad.setDescripcion(rs.getString("descripcion"));
+                actividad.setIdProyecto(rs.getInt("idproyecto"));
+                actividad.setDniEjecutor(rs.getString("dni_ejecutor"));
+                actividad.setDniPlanificador(rs.getString("dni_planificador"));
+                actividad.setFechaPlanificada(rs.getString("fechaplanificada"));
+                actividad.setTiempoPlanificado(rs.getDouble("tiempoplanificado"));
+                actividad.setPlanificado(rs.getInt("planificado"));
+                actividades.add(actividad);
+            }
+            rs.close();
+            ps.close();
+            con.close();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return actividades;
     }
 }

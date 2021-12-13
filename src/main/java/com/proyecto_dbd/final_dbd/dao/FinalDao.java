@@ -20,4 +20,5 @@ public interface FinalDao {
     List<Proyecto> obtenerProyectoFull();
     ContactoCliente insertarContactoCliente (ContactoCliente contactocliente);
     Actividad actualizarActividad (Actividad actividad);
+    List<Actividad> actividadesXEmpleadoXProyecto(FiltroEmpleadoProyecto filtro);
 }
