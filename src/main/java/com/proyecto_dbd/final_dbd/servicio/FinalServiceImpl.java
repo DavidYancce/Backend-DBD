@@ -46,7 +46,7 @@ public class FinalServiceImpl implements FinalService{
 
     public List<Proyecto> obtenerProyectoFull() { return dao.obtenerProyectoFull(); }
 
-    public String insertarProyecto(Datos datos) {
+    public Datos insertarProyecto(Datos datos) {
         return daoMC.insertarProyecto(datos);
     }
     public List<FiltrosBP> busquedaProyecto(FiltrosBP filtro) { return daoMC.busquedaProyecto(filtro); }

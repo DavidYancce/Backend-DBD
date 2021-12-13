@@ -25,7 +25,7 @@ public interface FinalService {
     ContactoCliente insertarContactoCliente (ContactoCliente contactocliente);
     List<Proyecto> obtenerProyectoFull();
     Actividad actualizarActividad (Actividad actividad);
-    String insertarProyecto(Datos datos);
+    Datos insertarProyecto(Datos datos);
     List<FiltrosBP> busquedaProyecto(FiltrosBP filtro);
     List<LineaNegocio> obtenerLineasNegocio();
     List<DashboardHoraXLinea> horaPorLinea(RangoFechas Fechas);

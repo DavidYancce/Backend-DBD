@@ -177,7 +177,7 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public @ResponseBody String insertarProyecto(@RequestBody Datos datos) {
+    public @ResponseBody Datos insertarProyecto(@RequestBody Datos datos) {
         return service.insertarProyecto(datos);
     }
     @RequestMapping(

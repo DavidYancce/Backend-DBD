@@ -177,7 +177,7 @@ public class FinalDaoImplMC implements FinalDaoMC {
                 "    END " +
                 "AND 1 = CASE " +
                 "    WHEN ?='' THEN 1 " +
-                "    WHEN E.NombreCompleto LIKE ? THEN 1 " +
+                "    WHEN upper(E.NombreCompleto) LIKE ? THEN 1 " +
                 "    ELSE 0 " +
                 "    END " +
                 "AND 1 = CASE " +
@@ -197,7 +197,7 @@ public class FinalDaoImplMC implements FinalDaoMC {
             ps.setString(1, filtro.getNombreProyecto().toUpperCase());
             ps.setString(2, "%"+filtro.getNombreProyecto().toUpperCase()+"%");
             ps.setString(3, filtro.getLineaNegocio());
-            ps.setString(4, "%"+filtro.getLineaNegocio()+"%");
+            ps.setString(4, "%"+filtro.getLineaNegocio().toUpperCase()+"%");
             ps.setString(5, filtro.getNombreJefe().toUpperCase());
             ps.setString(6, "%"+filtro.getNombreJefe().toUpperCase()+"%");
             ps.setString(7, filtro.getEstadoProyecto().toUpperCase());
@@ -225,7 +225,7 @@ public class FinalDaoImplMC implements FinalDaoMC {
     }
     private Integer obtenerIdProyectoPorNombreProyecto(String _nombreProyecto){
         String SQL="select idproyecto from proyecto where nombreProyecto = ? ";
-        Integer idProyecto=-1;
+        Integer idProyecto=0;
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement ps = con.prepareStatement(SQL);
@@ -240,10 +240,9 @@ public class FinalDaoImplMC implements FinalDaoMC {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         return idProyecto;
     }
-    public String insertarProyecto(Datos datos) {
+    public Datos insertarProyecto(Datos datos) {
         String SQL1=" insert into proyecto(estado,nombreproyecto,fechainicio,fechafin,ruc,idlinea) values (?,?,?,?,?,?) ";
         String SQL2=" insert into empleadoxproyecto(dni,idproyecto,rol,descripcion) values (?,?,?,?) ";
         try {
@@ -266,6 +265,7 @@ public class FinalDaoImplMC implements FinalDaoMC {
         try {
             Connection con2 = jdbcTemplate.getDataSource().getConnection();
             Integer _idProyecto = obtenerIdProyectoPorNombreProyecto(datos.getNombreProyecto());
+            System.out.println(_idProyecto);
             PreparedStatement pst = con2.prepareStatement(SQL2);
             pst.setString(1, datos.getDni());
             pst.setInt(2, _idProyecto);
@@ -278,6 +278,6 @@ public class FinalDaoImplMC implements FinalDaoMC {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return "Proyecto registrado correctamente";
+        return datos;
     }
 }

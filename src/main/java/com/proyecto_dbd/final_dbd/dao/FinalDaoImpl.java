@@ -340,7 +340,7 @@ public class FinalDaoImpl implements FinalDao {
         List<Actividad> actividades = new ArrayList<>();
         try {
             Connection con = jdbcTemplate.getDataSource().getConnection();
-            String sentenciaSQL = " select * from actividad where idproyecto=? and planificado=1 and dni_ejecutor=? ";
+            String sentenciaSQL = " select * from actividad where idproyecto=? and planificado=1 and dni_ejecutor=? and fechaingresada is null";
             PreparedStatement ps = con.prepareStatement(sentenciaSQL);
             ps.setInt(1, filtro.getIdProyecto());
             ps.setString(2, filtro.getDniEmpleado());
