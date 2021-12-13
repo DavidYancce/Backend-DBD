@@ -215,13 +215,16 @@ public class FinalControlador {
         return service.horaPorLinea(Fechas);
     }
 
+
     @RequestMapping(
-            value = "/test",
+            value = "/obtener-actividades-empleado-proyecto",
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public @ResponseBody LineaNegocio test(@RequestBody LineaNegocio linea) {
-        return linea;
+    public @ResponseBody List<Actividad> actividadesXEmpleadoXProyecto(@RequestBody FiltroEmpleadoProyecto filtro){
+        return service.actividadesXEmpleadoXProyecto(filtro);
     }
+
+    
 }
 
