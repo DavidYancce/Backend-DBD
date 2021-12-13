@@ -241,4 +241,32 @@ public class FinalDaoImplDZ implements FinalDaoDZ {
         }
         return registros;
     }
+
+    public List<RegTablaAct> obtenerRegsActividad(Empleado empleado) {
+        List<RegTablaAct> registros = new ArrayList<RegTablaAct>();
+        String sql=" SELECT P.nombreproyecto, A.planificado, A.fechaingresada, A.descripcion, A.tiemporequerido " +
+                " FROM Actividad AS A, Proyecto AS P " +
+                " WHERE A.idproyecto=P.idproyecto AND A.dni_ejecutor=?";
+        try{
+            Connection con = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1,empleado.getDNI());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                RegTablaAct registro = new RegTablaAct();
+                registro.setDescripcion(rs.getString("descripcion"));
+                registro.setPlanificado(rs.getInt("planificado"));
+                registro.setFechaIngresada(rs.getString("fechaingresada"));
+                registro.setNombreProyecto(rs.getString("nombreproyecto"));
+                registro.setTiempoRequerido(rs.getDouble("tiemporequerido"));
+                registros.add(registro);
+            }
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return registros;
+    }
 }

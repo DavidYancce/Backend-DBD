@@ -30,4 +30,5 @@ public interface FinalService {
     List<LineaNegocio> obtenerLineasNegocio();
     List<DashboardHoraXLinea> horaPorLinea(RangoFechas Fechas);
     List<Actividad> actividadesXEmpleadoXProyecto(FiltroEmpleadoProyecto filtro);
+    List<RegTablaAct> obtenerRegsActividad(Empleado empleado);
 }

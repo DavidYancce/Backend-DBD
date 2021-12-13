@@ -215,7 +215,6 @@ public class FinalControlador {
         return service.horaPorLinea(Fechas);
     }
 
-
     @RequestMapping(
             value = "/obtener-actividades-empleado-proyecto",
             produces = "application/json;charset=utf-8",
@@ -225,6 +224,14 @@ public class FinalControlador {
         return service.actividadesXEmpleadoXProyecto(filtro);
     }
 
+    @RequestMapping(
+                value = "/obtener-registros-actividad",
+            produces = "application/json;charset=utf-8",
+            method = RequestMethod.POST
+    )
+    public @ResponseBody List<RegTablaAct> obtenerRegsActividad(@RequestBody Empleado empleado){
+        return service.obtenerRegsActividad(empleado);
+    }
     
 }
 

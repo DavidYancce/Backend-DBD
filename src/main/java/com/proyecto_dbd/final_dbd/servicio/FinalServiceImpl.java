@@ -102,4 +102,8 @@ public class FinalServiceImpl implements FinalService{
     public List<Actividad> actividadesXEmpleadoXProyecto(FiltroEmpleadoProyecto filtro){
         return dao.actividadesXEmpleadoXProyecto(filtro);
     }
+
+    public List<RegTablaAct> obtenerRegsActividad(Empleado empleado) {
+        return daoDZ.obtenerRegsActividad(empleado);
+    }
 }
