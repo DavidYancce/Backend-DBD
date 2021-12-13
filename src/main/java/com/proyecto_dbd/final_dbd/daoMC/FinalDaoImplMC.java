@@ -109,7 +109,11 @@ public class FinalDaoImplMC implements FinalDaoMC {
             ps.setString(3, empleado.getNombre2());
             ps.setString(4, empleado.getApellidoPaterno());
             ps.setString(5, empleado.getApellidoMaterno());
-            ps.setString(6, empleado.getNombreCompleto());
+            if(empleado.getNombre2()==null){
+                ps.setString(6, empleado.getNombre1()+" "+" "+empleado.getApellidoPaterno()+" "+empleado.getApellidoMaterno());
+            } else{
+                ps.setString(6, empleado.getNombre1()+" "+empleado.getNombre2()+" "+empleado.getApellidoPaterno()+" "+empleado.getApellidoMaterno());
+            }
             ps.setString(7, empleado.getNombre1().toLowerCase()+"."+empleado.getApellidoPaterno().toLowerCase()+"@gestionysistemas.com");
             ps.setString(8, empleado.getDNI());
             ps.setString(9, empleado.getTelefono());
