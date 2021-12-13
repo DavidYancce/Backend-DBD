@@ -17,7 +17,7 @@ public class FinalControlador {
     private FinalService service;
 
     @RequestMapping(
-            value = "/login",
+            value = "/validar-login",
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
