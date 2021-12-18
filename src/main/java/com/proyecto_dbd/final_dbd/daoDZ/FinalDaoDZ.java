@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface FinalDaoDZ {
     List<Proyecto> obtenerProyectos();
-    List<Actividad> obtenerActividades();
+    List<Actividad> obtenerActividades(FiltroEmpleadoProyecto filtro);
     List<Empleado> obtenerJefesProyecto();
     List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fechas);
     List<Empleado> obtenerColaboradores(Proyecto proyecto);

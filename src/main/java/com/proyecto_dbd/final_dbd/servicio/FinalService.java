@@ -13,7 +13,7 @@ public interface FinalService {
     Cliente insertarCliente(Cliente cliente);
     Actividad insertarActividad (Actividad actividad);
     List<Proyecto> obtenerProyectos();
-    List<Actividad> obtenerActividades();
+    List<Actividad> obtenerActividades(FiltroEmpleadoProyecto filtro);
     List<Empleado> obtenerJefesProyecto();
     List<HorasRegistradasProyecto> obtenerHorasRegistradasProyecto(RangoFechas Fecha);
     List<HorasEmpleadoXProyecto> obtenerEmpleadoXProyecto(Proyecto proyecto);
@@ -29,6 +29,5 @@ public interface FinalService {
     List<FiltrosBP> busquedaProyecto(FiltrosBP filtro);
     List<LineaNegocio> obtenerLineasNegocio();
     List<DashboardHoraXLinea> horaPorLinea(RangoFechas Fechas);
-    List<Actividad> actividadesXEmpleadoXProyecto(FiltroEmpleadoProyecto filtro);
     List<RegTablaAct> obtenerRegsActividad(Empleado empleado);
 }

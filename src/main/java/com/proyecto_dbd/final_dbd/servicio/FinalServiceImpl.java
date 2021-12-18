@@ -63,8 +63,8 @@ public class FinalServiceImpl implements FinalService{
         return daoDZ.obtenerProyectos();
     }
 
-    public List<Actividad> obtenerActividades() {
-        return daoDZ.obtenerActividades();
+    public List<Actividad> obtenerActividades(FiltroEmpleadoProyecto filtro) {
+        return daoDZ.obtenerActividades(filtro);
     }
 
     public List<Empleado> obtenerJefesProyecto() {
@@ -97,10 +97,6 @@ public class FinalServiceImpl implements FinalService{
 
     public Actividad actualizarActividad (Actividad actividad) {
         return dao.actualizarActividad(actividad);
-    }
-
-    public List<Actividad> actividadesXEmpleadoXProyecto(FiltroEmpleadoProyecto filtro){
-        return dao.actividadesXEmpleadoXProyecto(filtro);
     }
 
     public List<RegTablaAct> obtenerRegsActividad(Empleado empleado) {

@@ -87,8 +87,8 @@ public class FinalControlador {
             produces = "application/json;charset=utf-8",
             method = RequestMethod.POST
     )
-    public  @ResponseBody List<Actividad> obtenerActividades(){
-        return service.obtenerActividades();
+    public  @ResponseBody List<Actividad> obtenerActividades(@RequestBody FiltroEmpleadoProyecto filtro){
+        return service.obtenerActividades(filtro);
     }
 
     @RequestMapping(
@@ -213,15 +213,6 @@ public class FinalControlador {
     )
     public @ResponseBody List<DashboardHoraXLinea> horaPorLinea(@RequestBody RangoFechas Fechas){
         return service.horaPorLinea(Fechas);
-    }
-
-    @RequestMapping(
-            value = "/obtener-actividades-empleado-proyecto",
-            produces = "application/json;charset=utf-8",
-            method = RequestMethod.POST
-    )
-    public @ResponseBody List<Actividad> actividadesXEmpleadoXProyecto(@RequestBody FiltroEmpleadoProyecto filtro){
-        return service.actividadesXEmpleadoXProyecto(filtro);
     }
 
     @RequestMapping(
